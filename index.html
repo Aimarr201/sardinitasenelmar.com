@@ -1,0 +1,246 @@
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    <title>sardinitasenelmar</title>
+
+</head>
+<body>
+
+    <div class="efecto-resplandor-cursor" id="efecto-resplandor-cursor"></div>
+
+    <!-- NAVBAR -->
+    <nav class="barra-navegacion" id="barra-navegacion-fija">
+        <a href="#" class="marca-logo-sitio">
+            <span class="logo-pez-animado">🐟</span>
+            Sardinitas en el Mar
+        </a>
+        <ul class="lista-enlaces-navegacion" id="lista-enlaces-navegacion">
+            <li><a href="#nosotros">Nosotros</a></li>
+        </ul>
+        <button class="boton-conmutador-menu-hamburguesa" id="boton-menu-hamburguesa" aria-label="Menú">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+    <!-- CONTENT -->
+
+
+
+
+
+
+
+
+    <!-- HERO -->
+    <section class="seccion-hero-inicio" id="seccion-inicio-hero">
+        <div class="fondo-degradado-oceano"></div>
+        <div class="rayos-luz-submarina"></div>
+
+        <div class="contenedor-burbujas-animadas" id="contenedor-burbujas-animadas"></div>
+
+        <div class="cardumen-sardinas-animadas">
+            <span class="sardina-individual-animada sardina-izq-1">🐟</span>
+            <span class="sardina-individual-animada sardina-izq-2">🐟</span>
+            <span class="sardina-individual-animada sardina-izq-3">🐟</span>
+            <span class="sardina-individual-animada sardina-izq-4">🐟</span>
+            <span class="sardina-individual-animada sardina-izq-5">🐟</span>
+            <span class="sardina-individual-animada sardina-izq-6">🐟</span>
+            <span class="sardina-individual-animada sardina-izq-7">🐟</span>
+            <span class="sardina-individual-animada sardina-izq-8">🐟</span>
+            <span class="sardina-individual-animada sardina-izq-9">🐟</span>
+        </div>
+
+        <div class="cardumen-sardinas-animadas-inverso">
+            <span class="sardina-individual-animada-inversa sardina-der-1">🐟</span>
+            <span class="sardina-individual-animada-inversa sardina-der-2">🐟</span>
+            <span class="sardina-individual-animada-inversa sardina-der-3">🐟</span>
+            <span class="sardina-individual-animada-inversa sardina-der-4">🐟</span>
+            <span class="sardina-individual-animada-inversa sardina-der-5">🐟</span>
+            <span class="sardina-individual-animada-inversa sardina-der-6">🐟</span>
+            <span class="sardina-individual-animada-inversa sardina-der-7">🐟</span>
+            <span class="sardina-individual-animada-inversa sardina-der-8">🐟</span>
+            <span class="sardina-individual-animada-inversa sardina-der-9">🐟</span>
+            <span class="sardina-individual-animada-inversa sardina-der-10">🐟</span>
+            <span class="sardina-individual-animada-inversa sardina-der-11">🐟</span>
+            <span class="sardina-individual-animada-inversa sardina-der-12">🐟</span>
+            <span class="sardina-individual-animada-inversa sardina-der-13">🐟</span>
+            <span class="sardina-individual-animada-inversa sardina-der-14">🐟</span>
+            <span class="sardina-individual-animada-inversa sardina-der-15">🐟</span>
+            <span class="sardina-individual-animada-inversa sardina-der-16">🐟</span>
+        </div>
+
+        <div class="divisor-ola-pie-pagina">
+            <svg viewBox="0 0 1440 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 60L48 55C96 50 192 40 288 45C384 50 480 70 576 75C672 80 768 70 864 60C960 50 1056 40 1152 45C1248 50 1344 70 1392 80L1440 90V150H1392C1344 150 1248 150 1152 150C1056 150 960 150 864 150C768 150 672 150 576 150C480 150 384 150 288 150C192 150 96 150 48 150H0V60Z" fill="#0a1628"/>
+                <text x="720" y="130" text-anchor="middle" fill="rgba(232, 244, 248, 0.3)" font-size="12" font-family="Inter, sans-serif">© 2026 Sardinitas en el Mar · Todos los derechos reservados · Hecho con mucho amor por Alumno Fav</text>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Scroll to top -->
+    <button class="boton-subir-arriba" id="boton-subir-arriba" onclick="window.scrollTo({top:0})">↑</button>
+
+    <script>
+        // ==================== BUBBLES GENERATION ====================
+        const bubblesContainer = document.getElementById('contenedor-burbujas-animadas');
+        for (let i = 0; i < 25; i++) {
+            const bubble = document.createElement('div');
+            bubble.className = 'burbuja-animada';
+            const size = Math.random() * 20 + 5;
+            bubble.style.width = size + 'px';
+            bubble.style.height = size + 'px';
+            bubble.style.left = Math.random() * 100 + '%';
+            bubble.style.animationDuration = (Math.random() * 10 + 8) + 's';
+            bubble.style.animationDelay = (Math.random() * 10) + 's';
+            bubblesContainer.appendChild(bubble);
+        }
+
+        // ==================== NAVBAR SCROLL ====================
+        const navbar = document.getElementById('barra-navegacion-fija');
+        const scrollTopBtn = document.getElementById('boton-subir-arriba');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 80) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+
+            if (window.scrollY > 500) {
+                scrollTopBtn.classList.add('visible');
+            } else {
+                scrollTopBtn.classList.remove('visible');
+            }
+        });
+
+        // ==================== CURSOR GLOW ====================
+        const cursorGlow = document.getElementById('efecto-resplandor-cursor');
+
+        document.addEventListener('mousemove', (e) => {
+            cursorGlow.style.left = e.clientX + 'px';
+            cursorGlow.style.top = e.clientY + 'px';
+        });
+
+        // ==================== RANDOM GROUP DELAY (1s - 15s) ====================
+        // Añade un tiempo de espera aleatorio a cada cardumen (suma al delay definido en CSS)
+        (function applyRandomDelayPerCardumen(minSeconds = 1, maxSeconds = 7) {
+            const groups = document.querySelectorAll('.cardumen-sardinas-animadas, .cardumen-sardinas-animadas-inverso');
+            groups.forEach(group => {
+                const baseDelay = Math.random() * (maxSeconds - minSeconds) + minSeconds;
+                const fishes = group.querySelectorAll('span');
+                fishes.forEach(fish => {
+                    const cs = getComputedStyle(fish);
+                    // cs.animationDelay puede devolver valores como "0s" o "0.3s"
+                    const cssDelay = cs.animationDelay || '0s';
+                    const parsed = parseFloat(cssDelay) || 0;
+                    const newDelay = parsed + baseDelay;
+                    fish.style.animationDelay = newDelay + 's';
+                });
+            });
+        })();
+
+        // ==================== GROUP VERTICAL BASE + PER-FISH OFFSET ====================
+
+        // ==================== CARDUMEN IZQUIERDO ====================
+        async function applyGroupVerticalPositionsLeft(minVh = 0, maxVh = 60, minDelay = 3.5, maxDelay = 8) {
+            const group = document.querySelector('.cardumen-sardinas-animadas');
+            const fishes = Array.from(group.querySelectorAll('span'));
+            if (!fishes.length) return;
+
+            const initialTops = fishes.map(f => {
+                const csTop = getComputedStyle(f).top;
+                return csTop.endsWith('vh') ? parseFloat(csTop) : (parseFloat(csTop) || 0) / window.innerHeight * 100;
+            });
+
+            function applyRandomPositions() {
+                const randomValue = Math.random() * (maxVh - minVh) + minVh;
+                console.log(`Cardumen IZQUIERDO: altura = ${randomValue.toFixed(2)}vh`);
+
+                fishes.forEach((f, i) => {
+                    const topVh = initialTops[i] + randomValue;
+                    f.style.top = topVh + 'vh';
+                });
+            }
+
+            function waitForAnimationIteration() {
+                return new Promise(resolve => {
+                    fishes[0]?.addEventListener('animationiteration', () => {
+                        resolve();
+                    }, { once: true });
+                });
+            }
+
+            function waitForDelay() {
+                const randomDelay = Math.random() * (maxDelay - minDelay) + minDelay;
+                console.log(`Cardumen IZQUIERDO: delay = ${randomDelay.toFixed(2)}s`);
+                return new Promise(resolve => setTimeout(resolve, randomDelay * 1000));
+            }
+
+            // Aplicar posición inicial
+            applyRandomPositions();
+
+            // Loop asincrónico
+            while (true) {
+                await waitForAnimationIteration();
+                await waitForDelay();
+                applyRandomPositions();
+            }
+        }
+
+        // ==================== CARDUMEN DERECHO ====================
+        async function applyGroupVerticalPositionsRight(minVh = 0, maxVh = 60, minDelay = 3.5, maxDelay = 8) {
+            const group = document.querySelector('.cardumen-sardinas-animadas-inverso');
+            const fishes = Array.from(group.querySelectorAll('span'));
+            if (!fishes.length) return;
+
+            const initialTops = fishes.map(f => {
+                const csTop = getComputedStyle(f).top;
+                return csTop.endsWith('vh') ? parseFloat(csTop) : (parseFloat(csTop) || 0) / window.innerHeight * 100;
+            });
+
+            function applyRandomPositions() {
+                const randomValue = Math.random() * (maxVh - minVh) + minVh;
+                console.log(`Cardumen DERECHO: altura = ${randomValue.toFixed(2)}vh`);
+
+                fishes.forEach((f, i) => {
+                    const topVh = initialTops[i] + randomValue;
+                    f.style.top = topVh + 'vh';
+                });
+            }
+
+            function waitForAnimationIteration() {
+                return new Promise(resolve => {
+                    fishes[0]?.addEventListener('animationiteration', () => {
+                        resolve();
+                    }, { once: true });
+                });
+            }
+
+            function waitForDelay() {
+                const randomDelay = Math.random() * (maxDelay - minDelay) + minDelay;
+                console.log(`Cardumen DERECHO: delay = ${randomDelay.toFixed(2)}s`);
+                return new Promise(resolve => setTimeout(resolve, randomDelay * 1000));
+            }
+
+            // Aplicar posición inicial
+            applyRandomPositions();
+
+            // Loop asincrónico
+            while (true) {
+                await waitForAnimationIteration();
+                await waitForDelay();
+                applyRandomPositions();
+            }
+        }
+
+        // Ejecutar ambas funciones
+        applyGroupVerticalPositionsLeft();
+        applyGroupVerticalPositionsRight();
+    </script>
+</body>
+</html>
