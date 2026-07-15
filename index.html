@@ -44,34 +44,34 @@
         <div class="contenedor-burbujas-animadas" id="contenedor-burbujas-animadas"></div>
 
         <div class="cardumen-sardinas-animadas">
-            <span class="sardina-individual-animada sardina-izq-1">🐟</span>
-            <span class="sardina-individual-animada sardina-izq-2">🐟</span>
-            <span class="sardina-individual-animada sardina-izq-3">🐟</span>
-            <span class="sardina-individual-animada sardina-izq-4">🐟</span>
-            <span class="sardina-individual-animada sardina-izq-5">🐟</span>
-            <span class="sardina-individual-animada sardina-izq-6">🐟</span>
-            <span class="sardina-individual-animada sardina-izq-7">🐟</span>
-            <span class="sardina-individual-animada sardina-izq-8">🐟</span>
-            <span class="sardina-individual-animada sardina-izq-9">🐟</span>
+            <button class="sardina-individual-animada sardina-izq-1">🐟</button>
+            <button class="sardina-individual-animada sardina-izq-2">🐟</button>
+            <button class="sardina-individual-animada sardina-izq-3">🐟</button>
+            <button class="sardina-individual-animada sardina-izq-4">🐟</button>
+            <button class="sardina-individual-animada sardina-izq-5">🐟</button>
+            <button class="sardina-individual-animada sardina-izq-6">🐟</button>
+            <button class="sardina-individual-animada sardina-izq-7">🐟</button>
+            <button class="sardina-individual-animada sardina-izq-8">🐟</button>
+            <button class="sardina-individual-animada sardina-izq-9">🐟</button>
         </div>
 
         <div class="cardumen-sardinas-animadas-inverso">
-            <span class="sardina-individual-animada-inversa sardina-der-1">🐟</span>
-            <span class="sardina-individual-animada-inversa sardina-der-2">🐟</span>
-            <span class="sardina-individual-animada-inversa sardina-der-3">🐟</span>
-            <span class="sardina-individual-animada-inversa sardina-der-4">🐟</span>
-            <span class="sardina-individual-animada-inversa sardina-der-5">🐟</span>
-            <span class="sardina-individual-animada-inversa sardina-der-6">🐟</span>
-            <span class="sardina-individual-animada-inversa sardina-der-7">🐟</span>
-            <span class="sardina-individual-animada-inversa sardina-der-8">🐟</span>
-            <span class="sardina-individual-animada-inversa sardina-der-9">🐟</span>
-            <span class="sardina-individual-animada-inversa sardina-der-10">🐟</span>
-            <span class="sardina-individual-animada-inversa sardina-der-11">🐟</span>
-            <span class="sardina-individual-animada-inversa sardina-der-12">🐟</span>
-            <span class="sardina-individual-animada-inversa sardina-der-13">🐟</span>
-            <span class="sardina-individual-animada-inversa sardina-der-14">🐟</span>
-            <span class="sardina-individual-animada-inversa sardina-der-15">🐟</span>
-            <span class="sardina-individual-animada-inversa sardina-der-16">🐟</span>
+            <button class="sardina-individual-animada-inversa sardina-der-1">🐟</button>
+            <button class="sardina-individual-animada-inversa sardina-der-2">🐟</button>
+            <button class="sardina-individual-animada-inversa sardina-der-3">🐟</button>
+            <button class="sardina-individual-animada-inversa sardina-der-4">🐟</button>
+            <button class="sardina-individual-animada-inversa sardina-der-5">🐟</button>
+            <button class="sardina-individual-animada-inversa sardina-der-6">🐟</button>
+            <button class="sardina-individual-animada-inversa sardina-der-7">🐟</button>
+            <button class="sardina-individual-animada-inversa sardina-der-8">🐟</button>
+            <button class="sardina-individual-animada-inversa sardina-der-9">🐟</button>
+            <button class="sardina-individual-animada-inversa sardina-der-10">🐟</button>
+            <button class="sardina-individual-animada-inversa sardina-der-11">🐟</button>
+            <button class="sardina-individual-animada-inversa sardina-der-12">🐟</button>
+            <button class="sardina-individual-animada-inversa sardina-der-13">🐟</button>
+            <button class="sardina-individual-animada-inversa sardina-der-14">🐟</button>
+            <button class="sardina-individual-animada-inversa sardina-der-15">🐟</button>
+            <button class="sardina-individual-animada-inversa sardina-der-16">🐟</button>
         </div>
 
         <div class="divisor-ola-pie-pagina">
@@ -133,7 +133,7 @@
             const groups = document.querySelectorAll('.cardumen-sardinas-animadas, .cardumen-sardinas-animadas-inverso');
             groups.forEach(group => {
                 const baseDelay = Math.random() * (maxSeconds - minSeconds) + minSeconds;
-                const fishes = group.querySelectorAll('span');
+                const fishes = group.querySelectorAll('button');
                 fishes.forEach(fish => {
                     const cs = getComputedStyle(fish);
                     // cs.animationDelay puede devolver valores como "0s" o "0.3s"
@@ -150,7 +150,7 @@
         // ==================== CARDUMEN IZQUIERDO ====================
         async function applyGroupVerticalPositionsLeft(minVh = 0, maxVh = 60, minDelay = 3.5, maxDelay = 8) {
             const group = document.querySelector('.cardumen-sardinas-animadas');
-            const fishes = Array.from(group.querySelectorAll('span'));
+            const fishes = Array.from(group.querySelectorAll('button'));
             if (!fishes.length) return;
 
             const initialTops = fishes.map(f => {
@@ -196,7 +196,7 @@
         // ==================== CARDUMEN DERECHO ====================
         async function applyGroupVerticalPositionsRight(minVh = 0, maxVh = 60, minDelay = 3.5, maxDelay = 8) {
             const group = document.querySelector('.cardumen-sardinas-animadas-inverso');
-            const fishes = Array.from(group.querySelectorAll('span'));
+            const fishes = Array.from(group.querySelectorAll('button'));
             if (!fishes.length) return;
 
             const initialTops = fishes.map(f => {
