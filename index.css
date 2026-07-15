@@ -468,4 +468,5 @@ body {
     z-index: 9999;
     transform: translate(-50%, -50%);
     transition: opacity 0.3s;
+    display: none;
 }
