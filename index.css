@@ -409,6 +409,17 @@ body {
     100% { transform: translateX(-240vw) translateY(5px);   opacity: 0; }
 }
 
+/* ==================== SARDINA DESVIVIDA ==================== */
+@keyframes sardineEscape {
+    0%   { transform: translateY(0)      rotate(0deg)  scaleY(-1); opacity: 1; }
+    100% { transform: translateY(-100vh) rotate(10deg) scaleY(-1); opacity: 1; }
+}
+
+@keyframes sardineFloat {
+    0%   { transform: translateY(0)     rotate(10deg) scaleY(-1); }
+    50%  { transform: translateY(-12px) rotate(5deg)  scaleY(-1); }
+    100% { transform: translateY(0)     rotate(10deg) scaleY(-1); }
+}
 
 /* ==================== RESPONSIVE ==================== */
 

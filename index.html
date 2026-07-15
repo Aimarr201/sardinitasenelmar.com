@@ -163,6 +163,7 @@
                 console.log(`Cardumen IZQUIERDO: altura = ${randomValue.toFixed(2)}vh`);
 
                 fishes.forEach((f, i) => {
+                    if (f.dataset.escaped) return;
                     const topVh = initialTops[i] + randomValue;
                     f.style.top = topVh + 'vh';
                 });
@@ -209,6 +210,7 @@
                 console.log(`Cardumen DERECHO: altura = ${randomValue.toFixed(2)}vh`);
 
                 fishes.forEach((f, i) => {
+                    if (f.dataset.escaped) return;
                     const topVh = initialTops[i] + randomValue;
                     f.style.top = topVh + 'vh';
                 });
@@ -242,6 +244,61 @@
         // Ejecutar ambas funciones
         applyGroupVerticalPositionsLeft();
         applyGroupVerticalPositionsRight();
+
+        // ==================== CAZA DE SARDINAS ====================
+        function addSardineClickHandlers() {
+            const allSardines = document.querySelectorAll('.sardina-individual-animada, .sardina-individual-animada-inversa');
+
+            allSardines.forEach(sardine => {
+                sardine.addEventListener('click', function handler() {
+                    sardine.removeEventListener('click', handler);
+
+                    sardine.dataset.escaped = 'true';
+
+                    // Detectar qué tipo de sardina es
+                    const isInversa = sardine.classList.contains('sardina-individual-animada-inversa');
+                    const scale = isInversa ? 'scaleX(1)' : 'scaleX(-1)';
+
+                    const rect = sardine.getBoundingClientRect();
+                    const targetTopPx = window.innerHeight * 0.02;
+                    const translateNeeded = -(rect.top - targetTopPx);
+
+                    sardine.style.animation   = 'none';
+                    sardine.style.position    = 'fixed';
+                    sardine.style.left        = rect.left + 'px';
+                    sardine.style.top         = rect.top  + 'px';
+                    sardine.style.right       = 'auto';
+                    sardine.style.marginLeft  = '0';
+                    sardine.style.marginRight = '0';
+                    sardine.style.transform   = 'none';
+                    sardine.style.opacity     = '1';
+
+                    sardine.offsetHeight;
+
+                    const escape = sardine.animate([
+                        { transform: `translateY(0) rotate(0deg) scaleY(-1) ${scale}`,                     opacity: 1 },
+                        { transform: `translateY(${translateNeeded}px) rotate(10deg) scaleY(-1) ${scale}`, opacity: 1 }
+                    ], {
+                        duration: 30000,
+                        easing: 'ease-out',
+                        fill: 'forwards'
+                    });
+
+                    escape.onfinish = () => {
+                        escape.cancel();
+
+                        sardine.style.top       = '2vh';
+                        sardine.style.transform = `rotate(10deg) ${scale}`;
+
+                        sardine.offsetHeight;
+
+                        sardine.style.animation = 'sardineFloat 8s ease-in-out infinite';
+                    };
+                });
+            });
+        }
+
+        addSardineClickHandlers()
     </script>
 </body>
 </html>
