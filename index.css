@@ -219,7 +219,7 @@ body {
 .seccion-hero-inicio-contenido {
     position: relative;
     max-width: 800px;
-    z-index: 10;
+    z-index: 30;
     padding: 0 2rem;
 }
 
@@ -329,6 +329,8 @@ body {
   position: absolute;
   z-index: 5;
   pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
   top: 0;
   left: 0;
   width: 100%;
@@ -341,6 +343,8 @@ body {
     padding: 0;
     cursor: default;
     pointer-events: auto;
+    user-select: none;
+    -webkit-user-select: none;
     position: absolute;
     font-size: 1.5rem;
     opacity: 0;
@@ -373,6 +377,8 @@ body {
   position: absolute;
   z-index: 5;
   pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
   top: 0;
   left: 0;
   width: 100%;
@@ -385,6 +391,8 @@ body {
     padding: 0;
     cursor: default;
     pointer-events: auto;
+    user-select: none;
+    -webkit-user-select: none;
     position: absolute;
     font-size: 1.5rem;
     opacity: 0;
