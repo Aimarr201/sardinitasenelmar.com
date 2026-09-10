@@ -326,7 +326,7 @@ body {
 
 /* Animated sardines in hero */
 .cardumen-sardinas-animadas {
-  position: fixed;
+  position: absolute;
   z-index: 5;
   pointer-events: none;
   top: 0;
@@ -341,22 +341,23 @@ body {
     padding: 0;
     cursor: default;
     pointer-events: auto;
-    position: fixed;
+    position: absolute;
     font-size: 1.5rem;
     opacity: 0;
     animation: schoolSwim 15s linear infinite;
+    animation-play-state: paused;
 }
 
 /* Posiciones iniciales - Cardumen izquierdo */
-.sardina-izq-1 { top: 3vh; left: -110vw; font-size: 1.2rem; animation-delay: 0s;    margin-left: -5px; }
-.sardina-izq-2 { top: 6vh; left: -110vw; font-size: 1rem;   animation-delay: 0.1s;  margin-left: -13px; }
-.sardina-izq-3 { top: 4vh; left: -110vw; font-size: 1.4rem; animation-delay: 0.2s;  margin-left: -15px; }
-.sardina-izq-4 { top: 0vh; left: -110vw; font-size: 2.5rem; animation-delay: 0.3s;  margin-left: -39px; }
-.sardina-izq-5 { top: 8vh; left: -110vw; font-size: 0.9rem; animation-delay: 0.35s; margin-left: -30px; }
-.sardina-izq-6 { top: 5vh; left: -110vw; font-size: 1.1rem; animation-delay: 0.5s;  margin-left: -20px; }
-.sardina-izq-7 { top: 3vh; left: -110vw; font-size: 1.3rem; animation-delay: 0.7s;  margin-left: -12px; }
-.sardina-izq-8 { top: 0vh; left: -110vw; font-size: 1rem;   animation-delay: 0.75s; margin-left: -28px; }
-.sardina-izq-9 { top: 5vh; left: -110vw; font-size: 1.5rem; animation-delay: 0.82s; margin-left: -18px; }
+.sardina-izq-1 { top: 3%; left: -110vw; font-size: 1.2rem; animation-delay: 0s;    margin-left: -5px; }
+.sardina-izq-2 { top: 6%; left: -110vw; font-size: 1rem;   animation-delay: 0.1s;  margin-left: -13px; }
+.sardina-izq-3 { top: 4%; left: -110vw; font-size: 1.4rem; animation-delay: 0.2s;  margin-left: -15px; }
+.sardina-izq-4 { top: 0%; left: -110vw; font-size: 2.5rem; animation-delay: 0.3s;  margin-left: -39px; }
+.sardina-izq-5 { top: 8%; left: -110vw; font-size: 0.9rem; animation-delay: 0.35s; margin-left: -30px; }
+.sardina-izq-6 { top: 5%; left: -110vw; font-size: 1.1rem; animation-delay: 0.5s;  margin-left: -20px; }
+.sardina-izq-7 { top: 3%; left: -110vw; font-size: 1.3rem; animation-delay: 0.7s;  margin-left: -12px; }
+.sardina-izq-8 { top: 0%; left: -110vw; font-size: 1rem;   animation-delay: 0.75s; margin-left: -28px; }
+.sardina-izq-9 { top: 5%; left: -110vw; font-size: 1.5rem; animation-delay: 0.82s; margin-left: -18px; }
 
 @keyframes schoolSwim {
     0%   { transform: translateX(0)     translateY(0) scaleX(-1);     opacity: 0; }
@@ -369,7 +370,7 @@ body {
 }
 
 .cardumen-sardinas-animadas-inverso {
-  position: fixed;
+  position: absolute;
   z-index: 5;
   pointer-events: none;
   top: 0;
@@ -384,31 +385,32 @@ body {
     padding: 0;
     cursor: default;
     pointer-events: auto;
-    position: fixed;
+    position: absolute;
     font-size: 1.5rem;
     opacity: 0;
     animation: schoolSwimReverse 15s linear infinite;
+    animation-play-state: paused;
 }
 
 /* Posiciones iniciales - Cardumen derecho */
-.sardina-der-1  { top: 0vh;  right:  -110vw; font-size: 1.1rem; animation-delay: 0.5s; margin-right: -25px; }
-.sardina-der-2  { top: 3vh;  right:  -110vw; font-size: 1.3rem; animation-delay: 0.8s; margin-right: -25px; }
-.sardina-der-3  { top: 1vh;  right:  -110vw; font-size: 1rem;   animation-delay: 1.2s; margin-right: -15px; }
-.sardina-der-4  { top: 5vh;  right:  -110vw; font-size: 1.4rem; animation-delay: 1.8s; margin-right: -30px; }
-.sardina-der-5  { top: 2vh;  right:  -110vw; font-size: 0.9rem; animation-delay: 2.2s; margin-right: -20px; }
-.sardina-der-6  { top: 20vh; right:  -110vw; font-size: 1.2rem; animation-delay: 2.4s; margin-right: -12px; }
-.sardina-der-7  { top: 25vh; right:  -110vw; font-size: 1rem;   animation-delay: 3.0s; margin-right: -28px; }
-.sardina-der-8  { top: 23vh; right:  -110vw; font-size: 1.3rem; animation-delay: 3.6s; margin-right: -18px; }
-.sardina-der-9  { top: 7vh;  right:  -110vw; font-size: 1.1rem; animation-delay: 0.5s; margin-right: -25px; }
-.sardina-der-10 { top: 10vh; right:  -110vw; font-size: 1.3rem; animation-delay: 0.8s; margin-right: -15px; }
-.sardina-der-11 { top: 8vh;  right:  -110vw; font-size: 1rem;   animation-delay: 1.2s; margin-right: -30px; }
-.sardina-der-12 { top: 13vh; right:  -110vw; font-size: 1.4rem; animation-delay: 1.8s; margin-right: -20px; }
-.sardina-der-13 { top: 11vh; right:  -110vw; font-size: 0.9rem; animation-delay: 2.2s; margin-right: -12px; }
-.sardina-der-14 { top: 28vh; right:  -110vw; font-size: 1.2rem; animation-delay: 2.4s; margin-right: -28px; }
-.sardina-der-15 { top: 20vh; right:  -110vw; font-size: 1rem;   animation-delay: 3.0s; margin-right: -18px; }
-.sardina-der-16 { top: 23vh; right:  -110vw; font-size: 1.3rem; animation-delay: 3.5s; margin-right: -25px; }
-.sardina-der-15 { top: 13vh; right:  -110vw; font-size: 1rem;   animation-delay: 3.0s; margin-right: -29px; }
-.sardina-der-16 { top: 13vh; right:  -110vw; font-size: 1.3rem; animation-delay: 3.5s; margin-right: -17px; }
+.sardina-der-1  { top: 0%;  right:  -110vw; font-size: 1.1rem; animation-delay: 0.5s; margin-right: -25px; }
+.sardina-der-2  { top: 3%;  right:  -110vw; font-size: 1.3rem; animation-delay: 0.8s; margin-right: -25px; }
+.sardina-der-3  { top: 1%;  right:  -110vw; font-size: 1rem;   animation-delay: 1.2s; margin-right: -15px; }
+.sardina-der-4  { top: 5%;  right:  -110vw; font-size: 1.4rem; animation-delay: 1.8s; margin-right: -30px; }
+.sardina-der-5  { top: 2%;  right:  -110vw; font-size: 0.9rem; animation-delay: 2.2s; margin-right: -20px; }
+.sardina-der-6  { top: 20%; right:  -110vw; font-size: 1.2rem; animation-delay: 2.4s; margin-right: -12px; }
+.sardina-der-7  { top: 25%; right:  -110vw; font-size: 1rem;   animation-delay: 3.0s; margin-right: -28px; }
+.sardina-der-8  { top: 23%; right:  -110vw; font-size: 1.3rem; animation-delay: 3.6s; margin-right: -18px; }
+.sardina-der-9  { top: 7%;  right:  -110vw; font-size: 1.1rem; animation-delay: 0.5s; margin-right: -25px; }
+.sardina-der-10 { top: 10%; right:  -110vw; font-size: 1.3rem; animation-delay: 0.8s; margin-right: -15px; }
+.sardina-der-11 { top: 8%;  right:  -110vw; font-size: 1rem;   animation-delay: 1.2s; margin-right: -30px; }
+.sardina-der-12 { top: 13%; right:  -110vw; font-size: 1.4rem; animation-delay: 1.8s; margin-right: -20px; }
+.sardina-der-13 { top: 11%; right:  -110vw; font-size: 0.9rem; animation-delay: 2.2s; margin-right: -12px; }
+.sardina-der-14 { top: 28%; right:  -110vw; font-size: 1.2rem; animation-delay: 2.4s; margin-right: -28px; }
+.sardina-der-15 { top: 20%; right:  -110vw; font-size: 1rem;   animation-delay: 3.0s; margin-right: -18px; }
+.sardina-der-16 { top: 23%; right:  -110vw; font-size: 1.3rem; animation-delay: 3.5s; margin-right: -25px; }
+.sardina-der-15 { top: 13%; right:  -110vw; font-size: 1rem;   animation-delay: 3.0s; margin-right: -29px; }
+.sardina-der-16 { top: 13%; right:  -110vw; font-size: 1.3rem; animation-delay: 3.5s; margin-right: -17px; }
 
 
 @keyframes schoolSwimReverse {
@@ -428,9 +430,15 @@ body {
 }
 
 @keyframes sardineFloat {
-    0%   { transform: translateY(0)     rotate(10deg) scaleY(-1); }
-    50%  { transform: translateY(-12px) rotate(5deg)  scaleY(-1); }
-    100% { transform: translateY(0)     rotate(10deg) scaleY(-1); }
+    0%   { transform: translateY(0)     rotate(10deg) scaleY(-1) scaleX(-1); }
+    50%  { transform: translateY(-12px) rotate(5deg)  scaleY(-1) scaleX(-1); }
+    100% { transform: translateY(0)     rotate(10deg) scaleY(-1) scaleX(-1); }
+}
+
+@keyframes sardineFloatReverse {
+    0%   { transform: translateY(0)     rotate(10deg) scaleY(-1) scaleX(1); }
+    50%  { transform: translateY(-12px) rotate(5deg)  scaleY(-1) scaleX(1); }
+    100% { transform: translateY(0)     rotate(10deg) scaleY(-1) scaleX(1); }
 }
 
 /* ==================== RESPONSIVE ==================== */

@@ -149,6 +149,7 @@
                     const parsed = parseFloat(cssDelay) || 0;
                     const newDelay = parsed + baseDelay;
                     fish.style.animationDelay = newDelay + 's';
+                    fish.style.animationPlayState = 'running';
                 });
             });
         })();
@@ -163,17 +164,17 @@
 
             const initialTops = fishes.map(f => {
                 const csTop = getComputedStyle(f).top;
-                return csTop.endsWith('vh') ? parseFloat(csTop) : (parseFloat(csTop) || 0) / window.innerHeight * 100;
+                return csTop.endsWith('%') ? parseFloat(csTop) : (parseFloat(csTop) || 0) / group.offsetHeight * 100;
             });
 
             function applyRandomPositions() {
                 const randomValue = Math.random() * (maxVh - minVh) + minVh;
-                console.log(`Cardumen IZQUIERDO: altura = ${randomValue.toFixed(2)}vh`);
+                console.log(`Cardumen IZQUIERDO: altura = ${randomValue.toFixed(2)}%`);
 
                 fishes.forEach((f, i) => {
                     if (f.dataset.escaped) return;
-                    const topVh = initialTops[i] + randomValue;
-                    f.style.top = topVh + 'vh';
+                    const topPercent = initialTops[i] + randomValue;
+                    f.style.top = topPercent + '%';
                 });
             }
 
@@ -210,17 +211,17 @@
 
             const initialTops = fishes.map(f => {
                 const csTop = getComputedStyle(f).top;
-                return csTop.endsWith('vh') ? parseFloat(csTop) : (parseFloat(csTop) || 0) / window.innerHeight * 100;
+                return csTop.endsWith('%') ? parseFloat(csTop) : (parseFloat(csTop) || 0) / group.offsetHeight * 100;
             });
 
             function applyRandomPositions() {
                 const randomValue = Math.random() * (maxVh - minVh) + minVh;
-                console.log(`Cardumen DERECHO: altura = ${randomValue.toFixed(2)}vh`);
+                console.log(`Cardumen DERECHO: altura = ${randomValue.toFixed(2)}%`);
 
                 fishes.forEach((f, i) => {
                     if (f.dataset.escaped) return;
-                    const topVh = initialTops[i] + randomValue;
-                    f.style.top = topVh + 'vh';
+                    const topPercent = initialTops[i] + randomValue;
+                    f.style.top = topPercent + '%';
                 });
             }
 
@@ -267,14 +268,17 @@
                     const isInversa = sardine.classList.contains('sardina-individual-animada-inversa');
                     const scale = isInversa ? 'scaleX(1)' : 'scaleX(-1)';
 
+                    const hero = sardine.closest('.seccion-hero-inicio');
                     const rect = sardine.getBoundingClientRect();
-                    const targetTopPx = window.innerHeight * 0.02;
-                    const translateNeeded = -(rect.top - targetTopPx);
+                    const heroRect = hero.getBoundingClientRect();
+                    const currentTop = rect.top - heroRect.top;
+                    const targetTop = heroRect.height * 0.02;
+                    const translateNeeded = -(currentTop - targetTop);
 
                     sardine.style.animation   = 'none';
-                    sardine.style.position    = 'fixed';
-                    sardine.style.left        = rect.left + 'px';
-                    sardine.style.top         = rect.top  + 'px';
+                    sardine.style.position    = 'absolute';
+                    sardine.style.left        = (rect.left - heroRect.left) + 'px';
+                    sardine.style.top         = currentTop + 'px';
                     sardine.style.right       = 'auto';
                     sardine.style.marginLeft  = '0';
                     sardine.style.marginRight = '0';
@@ -295,12 +299,13 @@
                     escape.onfinish = () => {
                         escape.cancel();
 
-                        sardine.style.top       = '2vh';
+                        sardine.style.top       = '2%';
                         sardine.style.transform = `rotate(10deg) ${scale}`;
 
                         sardine.offsetHeight;
 
-                        sardine.style.animation = 'sardineFloat 8s ease-in-out infinite';
+                        const floatAnimation = isInversa ? 'sardineFloatReverse' : 'sardineFloat';
+                        sardine.style.animation = `${floatAnimation} 8s ease-in-out infinite`;
                     };
                 });
             });
