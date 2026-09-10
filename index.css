@@ -113,12 +113,14 @@ body {
 
 /* ==================== HERO ==================== */
 .seccion-hero-inicio {
-    height: 100vh;
+    min-height: 100vh;
+    height: auto;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
     overflow: hidden;
+    padding: 7rem 0 10rem;
 }
 
 .fondo-degradado-oceano {
