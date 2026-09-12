@@ -4,7 +4,7 @@ FROM debian:bookworm-slim
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-        curl jq dnsutils locales \
+        ca-certificates curl jq dnsutils locales \
     && locale-gen es_ES.UTF-8 \
     && rm -rf /var/lib/apt/lists/*
 

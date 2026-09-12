@@ -68,12 +68,12 @@ services:
       context: .
       dockerfile: Dockerfile.ddns
     volumes:
-      - ddns:/ddns
       - ./.env:/ddns/.env
+      - ./ddns.log:/ddns/ddns.log
     environment:
       - TZ=UTC
-      - LANG=es_ES.UTF-8
-      - LC_ALL=es_ES.UTF-8
+      - LANG=C.UTF-8
+      - LC_ALL=C.UTF-8
       - FREQUENCY=5m
     entrypoint: >
       sh -c "
@@ -86,4 +86,3 @@ services:
 volumes:
   certbot_www:
   certbot_certs:
-  ddns:

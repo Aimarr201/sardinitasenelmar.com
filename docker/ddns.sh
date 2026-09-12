@@ -2,8 +2,9 @@
 
 set -u
 
-ENV_FILE="/ddns/.env"
-LOG_FILE="/ddns/ddns.log"
+SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+ENV_FILE="$SCRIPT_DIR/.env"
+LOG_FILE="$SCRIPT_DIR/ddns.log"
 
 if [ ! -f "$ENV_FILE" ]; then
     echo "No existe $ENV_FILE"
@@ -24,7 +25,15 @@ actualizar_env() {
     valor="$2"
 
     if grep -q "^${variable}=" "$ENV_FILE"; then
-        sed -i "s|^${variable}=.*|${variable}=${valor}|" "$ENV_FILE"
+        TEMP_FILE=$(mktemp "${ENV_FILE}.tmp.XXXXXX") || return 1
+        sed "s|^${variable}=.*|${variable}=${valor}|" "$ENV_FILE" > "$TEMP_FILE" || {
+            rm -f "$TEMP_FILE"
+            return 1
+        }
+        cat "$TEMP_FILE" > "$ENV_FILE"
+        STATUS=$?
+        rm -f "$TEMP_FILE"
+        return "$STATUS"
     else
         printf '%s=%s\n' "$variable" "$valor" >> "$ENV_FILE"
     fi
