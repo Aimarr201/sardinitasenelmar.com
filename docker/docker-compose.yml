@@ -39,8 +39,7 @@ services:
              if test -f /etc/letsencrypt/live/$${DOMAIN}/fullchain.pem; then
                echo 'Certificado existente';
              else
-               certbot certonly --standalone --non-interactive --agree-tos
-                 --email $${CERTBOT_EMAIL} -d $${DOMAIN};
+               certbot certonly --standalone --non-interactive --agree-tos --email $${CERTBOT_EMAIL} --domains $${DOMAIN};
              fi"
     restart: "no"
 
