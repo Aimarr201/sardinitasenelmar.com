@@ -1,0 +1,90 @@
+
+services:
+  nginx:
+    image: nginx:latest
+    environment:
+      - TZ=UTC
+      - DOMAIN=sardinitasenelmar.com
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf.template:ro
+      - ../sardinitasenelmar.com:/usr/share/nginx/html:ro
+      - ../errores:/usr/share/nginx/errores:ro
+      - certbot_www:/var/www/certbot:ro
+      - certbot_certs:/etc/letsencrypt:ro
+    entrypoint: >
+      sh -c "
+        envsubst '$${DOMAIN}' < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf;
+        exec nginx -g 'daemon off;'
+      "
+    restart: unless-stopped
+    depends_on:
+      certbot-init:
+        condition: service_completed_successfully
+
+  certbot-init:
+    image: certbot/certbot:latest
+    environment:
+      - TZ=UTC
+      - DOMAIN=sardinitasenelmar.com
+      - CERTBOT_EMAIL=admin@sardinitasenelmar.com
+    ports:
+      - "80:80"
+    volumes:
+      - certbot_certs:/etc/letsencrypt
+    entrypoint: >
+      sh -c "trap 'exit 0' TERM INT;
+             if test -f /etc/letsencrypt/live/$${DOMAIN}/fullchain.pem; then
+               echo 'Certificado existente';
+             else
+               certbot certonly --standalone --non-interactive --agree-tos
+                 --email $${CERTBOT_EMAIL} -d $${DOMAIN};
+             fi"
+    restart: "no"
+
+  certbot:
+    image: certbot/certbot:latest
+    environment:
+      - TZ=UTC
+      - DOMAIN=sardinitasenelmar.com
+    volumes:
+      - certbot_www:/var/www/certbot
+      - certbot_certs:/etc/letsencrypt
+    depends_on:
+      certbot-init:
+        condition: service_completed_successfully
+    entrypoint: >
+      sh -c "trap 'exit 0' TERM INT;
+             while :; do
+               certbot renew --webroot --webroot-path=/var/www/certbot --quiet;
+               sleep 12h &
+               wait $${!};
+             done"
+    restart: unless-stopped
+
+  ddns:
+    build:
+      context: .
+      dockerfile: Dockerfile.ddns
+    volumes:
+      - ddns:/ddns
+      - ./.env:/ddns/.env
+    environment:
+      - TZ=UTC
+      - LANG=es_ES.UTF-8
+      - LC_ALL=es_ES.UTF-8
+      - FREQUENCY=5m
+    entrypoint: >
+      sh -c "
+        while :; do
+          /ddns/ddns.sh
+          sleep $${FREQUENCY}
+        done
+      "
+
+volumes:
+  certbot_www:
+  certbot_certs:
+  ddns:
