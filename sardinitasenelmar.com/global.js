@@ -23,7 +23,7 @@ window.addEventListener('scroll', () => {
         navbar.classList.remove('scrolled');
     }
 
-    if (window.scrollY > 500) {
+    if (window.scrollY > 80) {
         scrollTopBtn.classList.add('visible');
     } else {
         scrollTopBtn.classList.remove('visible');

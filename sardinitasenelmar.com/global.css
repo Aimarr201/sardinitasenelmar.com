@@ -495,11 +495,13 @@ body {
     transition: all 0.3s;
     z-index: 999;
     box-shadow: 0 5px 20px rgba(78, 205, 196, 0.4);
+    pointer-events: none;
 }
 
 .boton-subir-arriba.visible {
     opacity: 1;
     transform: translateY(0);
+    pointer-events: auto;
 }
 
 .boton-subir-arriba:hover { transform: translateY(-3px) scale(1.1); }
