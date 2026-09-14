@@ -1,0 +1,56 @@
+name: Deploy to Server
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v4
+
+      # 1. CREAR BACKUP: Copia el estado actual antes de tocar nada
+      - name: Crear Backup de Producción
+        run: |
+          # Sincroniza la carpeta actual hacia una de backup. 
+          # Crea la carpeta /opt/repodegithub_backup automáticamente si no existe.
+          rsync -a --delete /opt/sardinitasenelmar.com/ /opt/sardinitasenelmar.com_backup/
+
+      - name: Sincronizar a producción
+        run: |
+          rsync -av --delete --exclude '.git' --filter=":- .gitignore" ./ /opt/sardinitasenelmar.com/
+
+      - name: Detectar cambios en Docker
+        uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            docker:
+              - 'docker/**'
+
+      - name: Reiniciar contenedores Docker
+        if: steps.filter.outputs.docker == 'true'
+        working-directory: /opt/repodegithub/docker
+        run: |
+          # Si este comando falla (ej. error de sintaxis o fallo al compilar), 
+          # el Action se detiene aquí y salta a los pasos con "if: failure()"
+          docker compose up -d --build
+
+      # 2. ROLLBACK: Solo se ejecuta si algo falló arriba
+      - name: Ejecutar Rollback
+        if: failure()
+        run: |
+          echo "Se detectó un error en el despliegue. Restaurando versión anterior..."
+          # Restaurar archivos desde el backup
+          rsync -a --delete /opt/sardinitasenelmar.com_backup/ /opt/sardinitasenelmar.com/
+          
+          # Si la carpeta docker existe, intentar levantar los contenedores antiguos
+          if [ -d "/opt/repodegithub/docker" ]; then
+            cd /opt/repodegithub/docker
+            docker compose up -d
+          fi
+          echo "Rollback completado con éxito."
+
