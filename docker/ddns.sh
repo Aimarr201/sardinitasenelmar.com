@@ -77,6 +77,7 @@ RESPONSE=$(curl -fsS -X PUT \
   --data "{\"type\":\"A\",\"name\":\"$DOMAIN\",\"content\":\"$PUBLIC_IP\",\"ttl\":120,\"proxied\":false}")
 
 if ! echo "$RESPONSE" | jq -e '.success == true' >/dev/null; then
+    actualizar_env "RECORD_ID" ""
     echo "Error actualizando el registro A"
     exit 1
 fi
