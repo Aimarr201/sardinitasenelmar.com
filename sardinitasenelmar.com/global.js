@@ -73,7 +73,6 @@ async function applyGroupVerticalPositionsLeft(minVh = 0, maxVh = 60, minDelay =
 
     function applyRandomPositions() {
         const randomValue = Math.random() * (maxVh - minVh) + minVh;
-        console.log(`Cardumen IZQUIERDO: altura = ${randomValue.toFixed(2)}%`);
 
         fishes.forEach((f, i) => {
             if (f.dataset.escaped) return;
@@ -92,7 +91,6 @@ async function applyGroupVerticalPositionsLeft(minVh = 0, maxVh = 60, minDelay =
 
     function waitForDelay() {
         const randomDelay = Math.random() * (maxDelay - minDelay) + minDelay;
-        console.log(`Cardumen IZQUIERDO: delay = ${randomDelay.toFixed(2)}s`);
         return new Promise(resolve => setTimeout(resolve, randomDelay * 1000));
     }
 
@@ -120,7 +118,6 @@ async function applyGroupVerticalPositionsRight(minVh = 0, maxVh = 60, minDelay 
 
     function applyRandomPositions() {
         const randomValue = Math.random() * (maxVh - minVh) + minVh;
-        console.log(`Cardumen DERECHO: altura = ${randomValue.toFixed(2)}%`);
 
         fishes.forEach((f, i) => {
             if (f.dataset.escaped) return;
@@ -139,7 +136,6 @@ async function applyGroupVerticalPositionsRight(minVh = 0, maxVh = 60, minDelay 
 
     function waitForDelay() {
         const randomDelay = Math.random() * (maxDelay - minDelay) + minDelay;
-        console.log(`Cardumen DERECHO: delay = ${randomDelay.toFixed(2)}s`);
         return new Promise(resolve => setTimeout(resolve, randomDelay * 1000));
     }
 
