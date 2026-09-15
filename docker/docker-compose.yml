@@ -42,6 +42,9 @@ services:
                certbot certonly --standalone --non-interactive --agree-tos --email $${CERTBOT_EMAIL} --domains $${DOMAIN};
              fi"
     restart: "no"
+    depends_on:
+      ddns-init:
+        condition: service_completed_successfully
 
   certbot:
     image: certbot/certbot:latest
@@ -75,13 +78,30 @@ services:
       - LANG=C.UTF-8
       - LC_ALL=C.UTF-8
       - FREQUENCY=5m
+    depends_on:
+      ddns-init:
+        condition: service_completed_successfully
     entrypoint: >
       sh -c "
         while :; do
-          /ddns/ddns.sh
+          /ddns/ddns.sh;
           sleep $${FREQUENCY}
         done
       "
+
+  ddns-init:
+    build:
+      context: .
+      dockerfile: Dockerfile.ddns
+    volumes:
+      - ./.env:/ddns/.env
+      - ./ddns.log:/ddns/ddns.log
+    environment:
+      - TZ=UTC
+      - LANG=C.UTF-8
+      - LC_ALL=C.UTF-8
+    entrypoint: ["/ddns/ddns.sh"]
+    restart: on-failure
 
 volumes:
   certbot_www:
