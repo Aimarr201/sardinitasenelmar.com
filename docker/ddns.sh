@@ -4,7 +4,7 @@ set -u
 
 SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 ENV_FILE="$SCRIPT_DIR/.env"
-LOG_FILE="$SCRIPT_DIR/ddns.log"
+LOG_FILE="${DDNS_LOG_FILE:-$SCRIPT_DIR/logs/ddns.log}"
 
 if [ ! -f "$ENV_FILE" ]; then
     echo "No existe $ENV_FILE"

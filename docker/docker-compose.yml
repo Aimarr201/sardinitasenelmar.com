@@ -83,7 +83,7 @@ services:
       dockerfile: Dockerfile.ddns
     volumes:
       - ./.env:/ddns/.env
-      - ./ddns.log:/ddns/ddns.log
+      - ./logs:/ddns/logs
     environment:
       - TZ=UTC
       - LANG=C.UTF-8
@@ -106,7 +106,7 @@ services:
       dockerfile: Dockerfile.ddns
     volumes:
       - ./.env:/ddns/.env
-      - ./ddns.log:/ddns/ddns.log
+      - ./logs:/ddns/logs
     environment:
       - TZ=UTC
       - LANG=C.UTF-8
