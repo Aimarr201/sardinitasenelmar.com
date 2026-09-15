@@ -83,9 +83,30 @@ async function applyGroupVerticalPositionsLeft(minVh = 0, maxVh = 60, minDelay =
 
     function waitForAnimationIteration() {
         return new Promise(resolve => {
-            fishes[0]?.addEventListener('animationiteration', () => {
-                resolve();
-            }, { once: true });
+            const activeFishes = fishes.filter(fish => !fish.dataset.escaped);
+            if (!activeFishes.length) {
+                resolve(false);
+                return;
+            }
+
+            let settled = false;
+            const observer = new MutationObserver(() => {
+                if (!fishes.some(fish => !fish.dataset.escaped)) {
+                    finish(false);
+                }
+            });
+
+            const finish = hasIteration => {
+                if (settled) return;
+                settled = true;
+                observer.disconnect();
+                activeFishes.forEach(fish => fish.removeEventListener('animationiteration', onIteration));
+                resolve(hasIteration);
+            };
+
+            const onIteration = () => finish(true);
+            activeFishes.forEach(fish => fish.addEventListener('animationiteration', onIteration, { once: true }));
+            observer.observe(group, { subtree: true, attributes: true, attributeFilter: ['data-escaped'] });
         });
     }
 
@@ -99,7 +120,7 @@ async function applyGroupVerticalPositionsLeft(minVh = 0, maxVh = 60, minDelay =
 
     // Loop asincrónico
     while (true) {
-        await waitForAnimationIteration();
+        if (!await waitForAnimationIteration()) break;
         await waitForDelay();
         applyRandomPositions();
     }
@@ -128,9 +149,30 @@ async function applyGroupVerticalPositionsRight(minVh = 0, maxVh = 60, minDelay 
 
     function waitForAnimationIteration() {
         return new Promise(resolve => {
-            fishes[0]?.addEventListener('animationiteration', () => {
-                resolve();
-            }, { once: true });
+            const activeFishes = fishes.filter(fish => !fish.dataset.escaped);
+            if (!activeFishes.length) {
+                resolve(false);
+                return;
+            }
+
+            let settled = false;
+            const observer = new MutationObserver(() => {
+                if (!fishes.some(fish => !fish.dataset.escaped)) {
+                    finish(false);
+                }
+            });
+
+            const finish = hasIteration => {
+                if (settled) return;
+                settled = true;
+                observer.disconnect();
+                activeFishes.forEach(fish => fish.removeEventListener('animationiteration', onIteration));
+                resolve(hasIteration);
+            };
+
+            const onIteration = () => finish(true);
+            activeFishes.forEach(fish => fish.addEventListener('animationiteration', onIteration, { once: true }));
+            observer.observe(group, { subtree: true, attributes: true, attributeFilter: ['data-escaped'] });
         });
     }
 
@@ -144,7 +186,7 @@ async function applyGroupVerticalPositionsRight(minVh = 0, maxVh = 60, minDelay 
 
     // Loop asincrónico
     while (true) {
-        await waitForAnimationIteration();
+        if (!await waitForAnimationIteration()) break;
         await waitForDelay();
         applyRandomPositions();
     }
