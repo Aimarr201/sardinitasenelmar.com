@@ -6,6 +6,7 @@
 - [ ] Corrección de error (bug fix)
 - [ ] Nueva característica (feature)
 - [ ] Mejora de estilo/diseño (UI/UX)
+- [ ] Añadir nueva pagina
 - [ ] Documentación
 
 ## Checklist
@@ -13,7 +14,7 @@
 - [ ] He utilizado la plantilla HTML/CSS proporcionada.
 - [ ] He revisado que el código es legible, sigue la estructura del proyecto y no he vibecodeado sin tener ni idea de lo que estoy haciendo.
 - [ ] He probado mis cambios en el navegador y se ve bien.
-- [ ] He comprobado que no he alterado archivos que no debía tocar (ej. archivos de configuración base).
+- [ ] He comprobado que no he alterado archivos que no debía tocar (ej. archivos de configuración globales).
 - [ ] He verificado la ortografía de los textos añadidos.
 
 ## Captura de pantalla (Opcional pero recomendado)
