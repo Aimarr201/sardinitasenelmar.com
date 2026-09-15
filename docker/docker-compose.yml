@@ -17,6 +17,17 @@ services:
     entrypoint: >
       sh -c "
         envsubst '$${DOMAIN}' < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf;
+        last_reload=0;
+        (
+          while :; do
+            sleep 60;
+            current_reload=$$(stat -c %Y /etc/letsencrypt/.nginx-reload 2>/dev/null || echo 0);
+            if [ "$${current_reload}" -gt "$${last_reload}" ]; then
+              nginx -s reload;
+              last_reload=$${current_reload};
+            fi;
+          done
+        ) &
         exec nginx -g 'daemon off;'
       "
     restart: unless-stopped
@@ -39,7 +50,7 @@ services:
              if test -f /etc/letsencrypt/live/$${DOMAIN}/fullchain.pem; then
                echo 'Certificado existente';
              else
-               certbot certonly --standalone --non-interactive --agree-tos --email $${CERTBOT_EMAIL} --domains $${DOMAIN};
+               certbot certonly --standalone --non-interactive --agree-tos --email $${CERTBOT_EMAIL} --domains $${DOMAIN} --deploy-hook 'touch /etc/letsencrypt/.nginx-reload';
              fi"
     restart: "no"
     depends_on:
@@ -60,7 +71,7 @@ services:
     entrypoint: >
       sh -c "trap 'exit 0' TERM INT;
              while :; do
-               certbot renew --webroot --webroot-path=/var/www/certbot --quiet;
+               certbot renew --webroot --webroot-path=/var/www/certbot --deploy-hook 'touch /etc/letsencrypt/.nginx-reload' --quiet;
                sleep 12h &
                wait $${!};
              done"
