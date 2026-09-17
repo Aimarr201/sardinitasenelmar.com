@@ -1,32 +1,38 @@
 // ==================== BUBBLES GENERATION ====================
 const bubblesContainer = document.getElementById('contenedor-burbujas-animadas');
-for (let i = 0; i < 25; i++) {
-    const bubble = document.createElement('div');
-    bubble.className = 'burbuja-animada';
-    const size = Math.random() * 20 + 5;
-    bubble.style.width = size + 'px';
-    bubble.style.height = size + 'px';
-    bubble.style.left = Math.random() * 100 + '%';
-    bubble.style.animationDuration = (Math.random() * 10 + 8) + 's';
-    bubble.style.animationDelay = (Math.random() * 10) + 's';
-    bubblesContainer.appendChild(bubble);
+if (bubblesContainer) {
+    for (let i = 0; i < 25; i++) {
+        const bubble = document.createElement('div');
+        bubble.className = 'burbuja-animada';
+        const size = Math.random() * 20 + 5;
+        bubble.style.width = size + 'px';
+        bubble.style.height = size + 'px';
+        bubble.style.left = Math.random() * 100 + '%';
+        bubble.style.animationDuration = (Math.random() * 10 + 8) + 's';
+        bubble.style.animationDelay = (Math.random() * 10) + 's';
+        bubblesContainer.appendChild(bubble);
+    }
 }
 
 // ==================== NAVBAR SCROLL ====================
-const navbar = document.getElementById('barra-navegacion-fija');
 const scrollTopBtn = document.getElementById('boton-subir-arriba');
 
 window.addEventListener('scroll', () => {
-    if (window.scrollY > 80) {
-        navbar.classList.add('scrolled');
-    } else {
-        navbar.classList.remove('scrolled');
+    const navbar = document.getElementById('barra-navegacion-fija');
+    if (navbar) {
+        if (window.scrollY > 80) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
     }
 
-    if (window.scrollY > 80) {
-        scrollTopBtn.classList.add('visible');
-    } else {
-        scrollTopBtn.classList.remove('visible');
+    if (scrollTopBtn) {
+        if (window.scrollY > 80) {
+            scrollTopBtn.classList.add('visible');
+        } else {
+            scrollTopBtn.classList.remove('visible');
+        }
     }
 });
 
@@ -34,6 +40,7 @@ window.addEventListener('scroll', () => {
 const cursorGlow = document.getElementById('efecto-resplandor-cursor');
 
 document.addEventListener('mousemove', (e) => {
+    if (!cursorGlow) return;
     cursorGlow.style.left = e.clientX + 'px';
     cursorGlow.style.top = e.clientY + 'px';
     cursorGlow.style.display = 'flex';
