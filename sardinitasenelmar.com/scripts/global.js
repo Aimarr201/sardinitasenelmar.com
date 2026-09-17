@@ -261,3 +261,28 @@ function addSardineClickHandlers() {
 }
 
 addSardineClickHandlers()
+
+document.addEventListener('click', (e) => {
+    if (e.target.matches('.sardina-individual-animada, .sardina-individual-animada-inversa')) return;
+
+    const overlay = document.querySelector('.seccion-hero-inicio-contenido');
+    if (!overlay) return;
+
+    if (!overlay.contains(e.target)) return;
+
+    const x = e.clientX;
+    const y = e.clientY;
+
+    const prevPointer = overlay.style.pointerEvents;
+    overlay.style.pointerEvents = 'none';
+    const elUnder = document.elementFromPoint(x, y);
+    overlay.style.pointerEvents = prevPointer || '';
+
+    if (!elUnder) return;
+
+    if (elUnder.matches('.sardina-individual-animada, .sardina-individual-animada-inversa')) {
+        e.preventDefault();
+        e.stopPropagation();
+        elUnder.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
+    }
+});

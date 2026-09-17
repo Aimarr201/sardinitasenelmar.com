@@ -341,7 +341,7 @@ body {
     background: none;
     border: none;
     padding: 0;
-    cursor: default;
+    cursor: pointer;
     pointer-events: auto;
     user-select: none;
     -webkit-user-select: none;
@@ -389,7 +389,7 @@ body {
     background: none;
     border: none;
     padding: 0;
-    cursor: default;
+    cursor: pointer;
     pointer-events: auto;
     user-select: none;
     -webkit-user-select: none;
