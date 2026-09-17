@@ -17,6 +17,10 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Log de inicio del despliegue
+        run: |
+          echo "Workflow iniciado en $(date '+%Y-%m-%d %H:%M:%S')"
+
       - name: Detectar cambios en Docker
         uses: dorny/paths-filter@v3
         id: filter
