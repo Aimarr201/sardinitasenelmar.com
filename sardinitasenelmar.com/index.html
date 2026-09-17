@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="global.css">
+    <script src="scripts/header.js" type="module" defer></script>
+    <script type="module" src="scripts/global.js" defer></script>
     <title>sardinitasenelmar</title>
 
 </head>
@@ -12,19 +14,8 @@
 
     <div class="efecto-resplandor-cursor" id="efecto-resplandor-cursor"></div>
 
-    <!-- NAVBAR -->
-    <nav class="barra-navegacion" id="barra-navegacion-fija">
-        <a href="#" class="marca-logo-sitio">
-            <span class="logo-pez-animado">🐟</span>
-            Sardinitas en el Mar
-        </a>
-        <ul class="lista-enlaces-navegacion" id="lista-enlaces-navegacion">
-            <li><a href="#nosotros">Nosotros</a></li>
-        </ul>
-        <button class="boton-conmutador-menu" id="boton-menu" aria-label="Menú">
-            <span></span><span></span><span></span>
-        </button>
-    </nav>
+    <!-- HEADER -->
+    <site-header></site-header>
 
     <section class="seccion-hero-inicio" id="seccion-inicio-hero">
         <div class="fondo-degradado-oceano"></div>
@@ -92,6 +83,5 @@
     <!-- Scroll to top -->
     <button class="boton-subir-arriba" id="boton-subir-arriba" onclick="window.scrollTo({top:0})">↑</button>
 
-    <script src="global.js"></script>
 </body>
 </html>
