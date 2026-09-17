@@ -120,4 +120,16 @@ Para añadir imágenes, dentro de la carpeta que has creado, crea una carpeta ll
 
 Si tienes que cambiar el header, está en `sardinitasenelmar.com/scripts/header.js`.
 
+Paso 6: **Comprueba tus cambios**
+
+Antes de dar por terminados los cambios, comprueba que todo funciona localmente. Para ello te recomiendo usar Python:
+
+    python3 -m http.server 8000
+
+En el navegador abre:
+
+    http://localhost:8000/sardinitasenelmar.com/
+
+Para detener el servidor en la consola donde lo iniciaste, pulsa Ctrl + C.
+
 Recuerda siempre respetar la [Guía de Estilo](#guía-de-estilo) para html y css antes de subir tus cambios y enviar el Pull Request.
