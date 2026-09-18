@@ -97,19 +97,40 @@ body {
 .boton-conmutador-menu {
     display: none;
     flex-direction: column;
+    justify-content: center;
     gap: 5px;
     cursor: pointer;
     background: none;
     border: none;
     padding: 5px;
+    /* Sits above the sliding panel, which would otherwise cover it once open */
+    position: relative;
+    z-index: 1;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .boton-conmutador-menu span {
+    display: block;
     width: 28px;
     height: 3px;
     background: var(--foam);
     border-radius: 3px;
-    transition: all 0.3s;
+    transform-origin: center;
+    transition: transform 0.3s ease, opacity 0.2s ease, background 0.3s ease;
+}
+
+/* Three bars fold into an X. The bars are 3px tall with a 5px gap, so the
+   outer two travel 8px to meet in the middle. */
+.boton-conmutador-menu.abierto span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+.boton-conmutador-menu.abierto span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.boton-conmutador-menu.abierto span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+.boton-conmutador-menu:hover span { background: var(--gold); }
+
+.boton-conmutador-menu:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 6px;
+    border-radius: 4px;
 }
 
 /* ==================== HERO ==================== */
@@ -454,22 +475,42 @@ body {
 
 @media (max-width: 768px) {
     .lista-enlaces-navegacion {
-        display: none;
+        display: flex;
         position: fixed;
         top: 0;
         right: 0;
-        width: 280px;
+        width: min(280px, 80vw);
         height: 100vh;
+        height: 100dvh;
         background: rgba(10, 22, 40, 0.98);
         backdrop-filter: blur(20px);
         flex-direction: column;
         padding: 5rem 2rem;
         gap: 1.5rem;
+        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.3);
+        /* visibility keeps the closed panel out of the tab order, and it
+           transitions as a step so the slide-out stays visible on the way out */
+        transform: translateX(100%);
+        visibility: hidden;
+        transition: transform 0.35s ease, visibility 0.35s ease;
     }
 
-    .lista-enlaces-navegacion.abierta { display: flex; }
+    .lista-enlaces-navegacion.abierta {
+        transform: translateX(0);
+        visibility: visible;
+    }
+
+    .lista-enlaces-navegacion a {
+        font-size: 1.1rem;
+        padding: 0.5rem 0;
+    }
 
     .boton-conmutador-menu { display: flex; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .lista-enlaces-navegacion { transition: none; }
+    .boton-conmutador-menu span { transition: none; }
 }
 
 
