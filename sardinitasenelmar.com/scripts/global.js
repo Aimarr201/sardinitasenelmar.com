@@ -46,224 +46,135 @@ document.addEventListener('mousemove', (e) => {
     cursorGlow.style.display = 'flex';
 });
 
-// ==================== RANDOM GROUP DELAY (1s - 15s) ====================
-// Añade un tiempo de espera aleatorio a cada cardumen (suma al delay definido en CSS)
-(function applyRandomDelayPerCardumen(minSeconds = 1, maxSeconds = 7) {
-    const groups = document.querySelectorAll('.cardumen-sardinas-animadas, .cardumen-sardinas-animadas-inverso');
-    groups.forEach(group => {
-        const baseDelay = Math.random() * (maxSeconds - minSeconds) + minSeconds;
-        const fishes = group.querySelectorAll('button');
-        fishes.forEach(fish => {
-            const cs = getComputedStyle(fish);
-            // cs.animationDelay puede devolver valores como "0s" o "0.3s"
-            const cssDelay = cs.animationDelay || '0s';
-            const parsed = parseFloat(cssDelay) || 0;
-            const newDelay = parsed + baseDelay;
-            fish.style.animationDelay = newDelay + 's';
-            fish.style.animationPlayState = 'running';
-        });
-    });
-})();
+// ==================== SARDININTXIS ====================
+document.addEventListener('DOMContentLoaded', () => {
 
-// ==================== GROUP VERTICAL BASE + PER-FISH OFFSET ====================
-
-// ==================== CARDUMEN IZQUIERDO ====================
-async function applyGroupVerticalPositionsLeft(minVh = 0, maxVh = 60, minDelay = 3.5, maxDelay = 8) {
-    const group = document.querySelector('.cardumen-sardinas-animadas');
-    const fishes = Array.from(group.querySelectorAll('button'));
-    if (!fishes.length) return;
-
-    const initialTops = fishes.map(f => {
-        const csTop = getComputedStyle(f).top;
-        return csTop.endsWith('%') ? parseFloat(csTop) : (parseFloat(csTop) || 0) / group.offsetHeight * 100;
-    });
-
-    function applyRandomPositions() {
-        const randomValue = Math.random() * (maxVh - minVh) + minVh;
-
-        fishes.forEach((f, i) => {
-            if (f.dataset.escaped) return;
-            const topPercent = initialTops[i] + randomValue;
-            f.style.top = topPercent + '%';
+    // --- 1. LÓGICA DE MOVIMIENTO CARDUMEN ---
+    function crearCaos(grupo) {
+        const peces = grupo.querySelectorAll('button:not([data-escaped="true"])');
+        peces.forEach(pez => {
+            pez.style.top = `${Math.random() * 85}%`;
+            pez.style.left = `${Math.random() * 85}%`;
+            const tamaño = (Math.random() * 1.5) + 1; 
+            pez.style.fontSize = `${tamaño}rem`;
+            pez.style.zIndex = Math.floor(Math.random() * 10);
         });
     }
 
-    function waitForAnimationIteration() {
-        return new Promise(resolve => {
-            const activeFishes = fishes.filter(fish => !fish.dataset.escaped);
-            if (!activeFishes.length) {
-                resolve(false);
-                return;
+    function animarCardumen(elemento, direccion, minEspera, maxEspera) {
+        if (!elemento) return;
+
+        function iniciarNado() {
+            crearCaos(elemento);
+
+            const nuevaAltura = Math.floor(Math.random() * 40) + 10;
+            elemento.style.top = `${nuevaAltura}%`;
+            elemento.style.transition = 'none';
+
+            if (direccion === 'hacia-derecha') {
+                elemento.style.transform = 'translateX(-100%)';
+            } else if (direccion === 'hacia-izquierda') {
+                elemento.style.transform = 'translateX(100%)';
             }
 
-            let settled = false;
-            const observer = new MutationObserver(() => {
-                if (!fishes.some(fish => !fish.dataset.escaped)) {
-                    finish(false);
-                }
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    elemento.style.transition = 'transform 11s linear';
+                    if (direccion === 'hacia-derecha') {
+                        elemento.style.transform = 'translateX(100vw)';
+                    } else if (direccion === 'hacia-izquierda') {
+                        elemento.style.transform = 'translateX(-100vw)';
+                    }
+                });
             });
+        }
 
-            const finish = hasIteration => {
-                if (settled) return;
-                settled = true;
-                observer.disconnect();
-                activeFishes.forEach(fish => fish.removeEventListener('animationiteration', onIteration));
-                resolve(hasIteration);
-            };
-
-            const onIteration = () => finish(true);
-            activeFishes.forEach(fish => fish.addEventListener('animationiteration', onIteration, { once: true }));
-            observer.observe(group, { subtree: true, attributes: true, attributeFilter: ['data-escaped'] });
-        });
-    }
-
-    function waitForDelay() {
-        const randomDelay = Math.random() * (maxDelay - minDelay) + minDelay;
-        return new Promise(resolve => setTimeout(resolve, randomDelay * 1000));
-    }
-
-    // Aplicar posición inicial
-    applyRandomPositions();
-
-    // Loop asincrónico
-    while (true) {
-        if (!await waitForAnimationIteration()) break;
-        await waitForDelay();
-        applyRandomPositions();
-    }
-}
-
-// ==================== CARDUMEN DERECHO ====================
-async function applyGroupVerticalPositionsRight(minVh = 0, maxVh = 60, minDelay = 3.5, maxDelay = 8) {
-    const group = document.querySelector('.cardumen-sardinas-animadas-inverso');
-    const fishes = Array.from(group.querySelectorAll('button'));
-    if (!fishes.length) return;
-
-    const initialTops = fishes.map(f => {
-        const csTop = getComputedStyle(f).top;
-        return csTop.endsWith('%') ? parseFloat(csTop) : (parseFloat(csTop) || 0) / group.offsetHeight * 100;
-    });
-
-    function applyRandomPositions() {
-        const randomValue = Math.random() * (maxVh - minVh) + minVh;
-
-        fishes.forEach((f, i) => {
-            if (f.dataset.escaped) return;
-            const topPercent = initialTops[i] + randomValue;
-            f.style.top = topPercent + '%';
-        });
-    }
-
-    function waitForAnimationIteration() {
-        return new Promise(resolve => {
-            const activeFishes = fishes.filter(fish => !fish.dataset.escaped);
-            if (!activeFishes.length) {
-                resolve(false);
-                return;
+        elemento.addEventListener('transitionend', (evento) => {
+            if (evento.target === elemento && evento.propertyName === 'transform') {
+                const tiempoAleatorio = Math.floor(Math.random() * (maxEspera - minEspera + 1)) + minEspera;
+                setTimeout(iniciarNado, tiempoAleatorio);
             }
-
-            let settled = false;
-            const observer = new MutationObserver(() => {
-                if (!fishes.some(fish => !fish.dataset.escaped)) {
-                    finish(false);
-                }
-            });
-
-            const finish = hasIteration => {
-                if (settled) return;
-                settled = true;
-                observer.disconnect();
-                activeFishes.forEach(fish => fish.removeEventListener('animationiteration', onIteration));
-                resolve(hasIteration);
-            };
-
-            const onIteration = () => finish(true);
-            activeFishes.forEach(fish => fish.addEventListener('animationiteration', onIteration, { once: true }));
-            observer.observe(group, { subtree: true, attributes: true, attributeFilter: ['data-escaped'] });
         });
+
+        const retrasoInicial = Math.floor(Math.random() * 7001) + 3000;
+        setTimeout(iniciarNado, retrasoInicial);
     }
 
-    function waitForDelay() {
-        const randomDelay = Math.random() * (maxDelay - minDelay) + minDelay;
-        return new Promise(resolve => setTimeout(resolve, randomDelay * 1000));
-    }
+    const grupo1 = document.getElementById('grupo-peces-izquierda')
+        || document.getElementById('grupo-izquierda');
+    const grupo2 = document.getElementById('grupo-peces-derecha')
+        || document.getElementById('grupo-derecha');
 
-    // Aplicar posición inicial
-    applyRandomPositions();
+    animarCardumen(grupo1, 'hacia-derecha', 2000, 6000);
+    animarCardumen(grupo2, 'hacia-izquierda', 3000, 8000);
 
-    // Loop asincrónico
-    while (true) {
-        if (!await waitForAnimationIteration()) break;
-        await waitForDelay();
-        applyRandomPositions();
-    }
-}
-
-// Ejecutar ambas funciones
-applyGroupVerticalPositionsLeft();
-applyGroupVerticalPositionsRight();
-
-// ==================== CAZA DE SARDINAS ====================
-function addSardineClickHandlers() {
-    const allSardines = document.querySelectorAll('.sardina-individual-animada, .sardina-individual-animada-inversa');
+    // --- 2. LÓGICA DE CLICKS (FANTASMA Y FLOTE LENTO) ---
+    const allSardines = document.querySelectorAll('.sardina-izquierda, .sardina-derecha');
+    const hero = document.getElementById('seccion-inicio-hero');
 
     allSardines.forEach(sardine => {
-        sardine.addEventListener('click', function handler() {
+        sardine.addEventListener('click', function handler(e) {
+            e.stopPropagation();
+
             sardine.removeEventListener('click', handler);
-
             sardine.dataset.escaped = 'true';
+            sardine.style.cursor = 'default';
 
-            // Detectar qué tipo de sardina es
-            const isInversa = sardine.classList.contains('sardina-individual-animada-inversa');
-            const scale = isInversa ? 'scaleX(1)' : 'scaleX(-1)';
+            const esDerecha = sardine.classList.contains('sardina-derecha');
+            const scale = esDerecha ? 'scaleX(1)' : 'scaleX(-1)';
 
-            const hero = sardine.closest('.seccion-hero-inicio');
             const rect = sardine.getBoundingClientRect();
             const heroRect = hero.getBoundingClientRect();
+
             const currentTop = rect.top - heroRect.top;
+            const currentLeft = rect.left - heroRect.left;
+
             const targetTop = heroRect.height * 0.02;
             const translateNeeded = -(currentTop - targetTop);
 
-            sardine.style.animation   = 'none';
-            sardine.style.position    = 'absolute';
-            sardine.style.left        = (rect.left - heroRect.left) + 'px';
-            sardine.style.top         = currentTop + 'px';
-            sardine.style.right       = 'auto';
-            sardine.style.marginLeft  = '0';
-            sardine.style.marginRight = '0';
-            sardine.style.transform   = 'none';
-            sardine.style.opacity     = '1';
+            sardine.style.visibility = 'hidden';
 
-            sardine.offsetHeight;
+            const pezClon = sardine.cloneNode(true);
+            pezClon.style.visibility = 'visible';
+            pezClon.style.zIndex = '1000';
+            hero.appendChild(pezClon);
 
-            const escape = sardine.animate([
-                { transform: `translateY(0) rotate(0deg) scaleY(-1) ${scale}`,                     opacity: 1 },
-                { transform: `translateY(${translateNeeded}px) rotate(10deg) scaleY(-1) ${scale}`, opacity: 1 }
+            pezClon.style.animation = 'none';
+            pezClon.style.transition = 'none';
+            pezClon.style.position = 'absolute';
+            pezClon.style.left = currentLeft + 'px';
+            pezClon.style.top = currentTop + 'px';
+            pezClon.style.right = 'auto';
+            pezClon.style.transform = 'none';
+            pezClon.style.opacity = '1';
+
+            pezClon.offsetHeight;
+
+            // SUBIDA
+            const escape = pezClon.animate([
+                { transform: `translateY(0) rotate(0deg) scaleY(-1) ${scale}` },
+                { transform: `translateY(${translateNeeded}px) rotate(10deg) scaleY(-1) ${scale}` }
             ], {
-                duration: 30000,
+                duration: 45000,
                 easing: 'ease-out',
                 fill: 'forwards'
             });
 
             escape.onfinish = () => {
                 escape.cancel();
+                pezClon.style.top = targetTop + 'px';
+                pezClon.style.transform = `rotate(10deg) scaleY(-1) ${scale}`;
 
-                sardine.style.top       = '2%';
-                sardine.style.transform = `rotate(10deg) ${scale}`;
-
-                sardine.offsetHeight;
-
-                const floatAnimation = isInversa ? 'sardineFloatReverse' : 'sardineFloat';
-                sardine.style.animation = `${floatAnimation} 8s ease-in-out infinite`;
+                // BALANCEO EN SUPERFICIE
+                const floatAnimation = esDerecha ? 'sardinaFlotandoDer' : 'sardinaFlotandoIzq';
+                pezClon.style.animation = `${floatAnimation} 20s ease-in-out infinite`;
             };
         });
     });
-}
-
-addSardineClickHandlers()
+});
 
 document.addEventListener('click', (e) => {
-    if (e.target.matches('.sardina-individual-animada, .sardina-individual-animada-inversa')) return;
+    if (e.target.matches('.sardina-izquierda, .sardina-derecha')) return;
 
     const overlay = document.querySelector('.seccion-hero-inicio-contenido');
     if (!overlay) return;
@@ -280,7 +191,7 @@ document.addEventListener('click', (e) => {
 
     if (!elUnder) return;
 
-    if (elUnder.matches('.sardina-individual-animada, .sardina-individual-animada-inversa')) {
+    if (elUnder.matches('.sardina-izquierda, .sardina-derecha')) {
         e.preventDefault();
         e.stopPropagation();
         elUnder.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
