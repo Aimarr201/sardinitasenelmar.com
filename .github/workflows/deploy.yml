@@ -1,0 +1,60 @@
+name: Deploy to Server
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    env:
+      PROD_DIR: /opt/sardinitasenelmar.com
+      BACKUP_DIR: /opt/sardinitasenelmar.com_backup
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Log de inicio del despliegue
+        run: |
+          echo "Workflow iniciado en $(date '+%Y-%m-%d %H:%M:%S')"
+
+      - name: Detectar cambios en Docker
+        uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            docker:
+              - 'docker/**'
+
+      # Solo si cambia Docker: crear backup antes de desplegar
+      - name: Crear Backup de Producción
+        if: steps.filter.outputs.docker == 'true'
+        run: |
+          rsync -a --delete "$PROD_DIR/" "$BACKUP_DIR/"
+
+      - name: Sincronizar a producción
+        run: |
+          rsync -av --delete --exclude '.git' --filter=":- .gitignore" ./ "$PROD_DIR/"
+
+      - name: Reiniciar contenedores Docker
+        if: steps.filter.outputs.docker == 'true'
+        working-directory: /opt/sardinitasenelmar.com/docker
+        run: |
+          docker compose up -d --build
+
+      # Rollback solo si hubo cambios en Docker y algo falló durante el despliegue
+      - name: Ejecutar Rollback
+        if: failure() && steps.filter.outputs.docker == 'true'
+        run: |
+          echo "Se detectó un error en el despliegue. Restaurando versión anterior..."
+          rsync -a --delete "$BACKUP_DIR/" "$PROD_DIR/"
+
+          if [ -d "$PROD_DIR/docker" ]; then
+            cd "$PROD_DIR/docker"
+            docker compose up -d
+          fi
+          echo "Rollback completado con éxito."
+
