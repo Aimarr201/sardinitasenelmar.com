@@ -13,7 +13,7 @@ jobs:
       BACKUP_DIR: /opt/sardinitasenelmar.com_backup
     steps:
       - name: Checkout del código
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
@@ -22,7 +22,7 @@ jobs:
           echo "Workflow iniciado en $(date '+%Y-%m-%d %H:%M:%S')"
 
       - name: Detectar cambios en Docker
-        uses: dorny/paths-filter@v3
+        uses: dorny/paths-filter@v4
         id: filter
         with:
           filters: |
