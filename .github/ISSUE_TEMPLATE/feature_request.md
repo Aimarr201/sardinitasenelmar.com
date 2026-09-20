@@ -3,7 +3,7 @@ name: Solicitar mejora (Feature Request)
 about: Sugiere una nueva idea o sección para sardinitasenelmar.com.
 title: '[MEJORA]: '
 labels: enhancement
-assignees: ''
+assignees: []
 ---
 
 **¿Tu propuesta está relacionada con un problema? Por favor, explícalo.**

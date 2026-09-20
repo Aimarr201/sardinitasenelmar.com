@@ -53,8 +53,9 @@ Para enviar tus cambios al proyecto, sigue este proceso estándar:
 
         git commit -m "feat: añadir nueva página X"
 8. **Sube los cambios (Push)** a tu fork:
-   **git push origin feature/mi-nueva-funcionalidad**
-9. **Abre un Pull Request** en el [repositorio original](https://github.com/Aimarr201/sardinitasenelmar.com.git) desde la pestaña de Pull Requests.
+
+        git push origin feature/mi-nueva-funcionalidad**
+9. **Abre un Pull Request** en el [repositorio original](https://github.com/Aimarr201/sardinitasenelmar.com) desde la pestaña de Pull Requests.
 
 ---
 

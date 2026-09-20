@@ -3,7 +3,7 @@ name: Reportar un error (Bug)
 about: Crea un reporte para ayudarnos a solucionar un fallo en la web.
 title: '[BUG]: '
 labels: bug
-assignees: ''
+assignees: []
 ---
 
 **Descripción del error**
