@@ -33,15 +33,15 @@ jobs:
       - name: Crear Backup de Producción
         if: steps.filter.outputs.docker == 'true'
         run: |
-          rsync -a --delete "$PROD_DIR/" "$BACKUP_DIR/"
+          rsync -rlt --delete --chmod=D2775,F664 "$PROD_DIR/" "$BACKUP_DIR/"
 
       - name: Sincronizar a producción
         run: |
-          rsync -av --delete --exclude '.git' --filter=":- .gitignore" ./ "$PROD_DIR/"
+          rsync -rltv --delete --exclude '.git' --filter=":- .gitignore" --chmod=D2775,F664 ./ "$PROD_DIR/"
 
       - name: Reiniciar contenedores Docker
         if: steps.filter.outputs.docker == 'true'
-        working-directory: /opt/sardinitasenelmar.com/docker
+        working-directory: ${{ env.PROD_DIR }}/docker
         run: |
           docker compose up -d --build
 
@@ -50,11 +50,10 @@ jobs:
         if: failure() && steps.filter.outputs.docker == 'true'
         run: |
           echo "Se detectó un error en el despliegue. Restaurando versión anterior..."
-          rsync -a --delete "$BACKUP_DIR/" "$PROD_DIR/"
+          rsync -rlt --delete --chmod=D2775,F664 "$BACKUP_DIR/" "$PROD_DIR/"
 
           if [ -d "$PROD_DIR/docker" ]; then
             cd "$PROD_DIR/docker"
             docker compose up -d
           fi
           echo "Rollback completado con éxito."
-
