@@ -1,0 +1,16 @@
+# /opt/loki-stack/docker/ddns.sh
+
+FROM debian:bookworm-slim
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        ca-certificates curl jq dnsutils locales \
+    && locale-gen es_ES.UTF-8 \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /ddns
+
+# copiar el script al directorio de trabajo
+COPY ddns.sh /ddns/ddns.sh
+
+RUN chmod 750 /ddns/ddns.sh
