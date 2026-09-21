@@ -345,129 +345,74 @@ body {
     height: auto;
 }
 
-/* Animated sardines in hero */
-.cardumen-sardinas-animadas {
-  position: absolute;
-  z-index: 5;
-  pointer-events: none;
-  user-select: none;
-  -webkit-user-select: none;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.sardina-individual-animada {
-    background: none;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    pointer-events: auto;
-    user-select: none;
-    -webkit-user-select: none;
+/* ------------------------------------------- */
+/* CONTENEDORES DE LOS CARDÚMENES              */
+/* ------------------------------------------- */
+.cardumen-sardinas-animadas,
+.cardumen-sardinas-animadas-inverso {
     position: absolute;
-    font-size: 1.5rem;
-    opacity: 0;
-    animation: schoolSwim 15s linear infinite;
-    animation-play-state: paused;
+    width: 1000px;
+    height: 500px;
+    z-index: 10;
 }
 
-/* Posiciones iniciales - Cardumen izquierdo */
-.sardina-izq-1 { top: 3%; left: -110vw; font-size: 1.2rem; animation-delay: 0s;    margin-left: -5px; }
-.sardina-izq-2 { top: 6%; left: -110vw; font-size: 1rem;   animation-delay: 0.1s;  margin-left: -13px; }
-.sardina-izq-3 { top: 4%; left: -110vw; font-size: 1.4rem; animation-delay: 0.2s;  margin-left: -15px; }
-.sardina-izq-4 { top: 0%; left: -110vw; font-size: 2.5rem; animation-delay: 0.3s;  margin-left: -39px; }
-.sardina-izq-5 { top: 8%; left: -110vw; font-size: 0.9rem; animation-delay: 0.35s; margin-left: -30px; }
-.sardina-izq-6 { top: 5%; left: -110vw; font-size: 1.1rem; animation-delay: 0.5s;  margin-left: -20px; }
-.sardina-izq-7 { top: 3%; left: -110vw; font-size: 1.3rem; animation-delay: 0.7s;  margin-left: -12px; }
-.sardina-izq-8 { top: 0%; left: -110vw; font-size: 1rem;   animation-delay: 0.75s; margin-left: -28px; }
-.sardina-izq-9 { top: 5%; left: -110vw; font-size: 1.5rem; animation-delay: 0.82s; margin-left: -18px; }
-
-@keyframes schoolSwim {
-    0%   { transform: translateX(0)     translateY(0) scaleX(-1);     opacity: 0; }
-    55%  { transform: translateX(110vw) translateY(5px) scaleX(-1);   opacity: 1; }
-    62%  { transform: translateX(124vw) translateY(-10px) scaleX(-1); opacity: 1; }
-    75%  { transform: translateX(150vw) translateY(-15px) scaleX(-1); opacity: 1; }
-    88%  { transform: translateX(176vw) translateY(5px) scaleX(-1);   opacity: 1; }
-    95%  { transform: translateX(214vw) translateY(3px) scaleX(-1);   opacity: 1; }
-    100% { transform: translateX(240vw) translateY(5px) scaleX(-1);   opacity: 0; }
+.cardumen-sardinas-animadas {
+    left: 0;
+    transform: translateX(-100%);
 }
 
 .cardumen-sardinas-animadas-inverso {
-  position: absolute;
-  z-index: 5;
-  pointer-events: none;
-  user-select: none;
-  -webkit-user-select: none;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+    right: 0;
+    transform: translateX(100%);
 }
 
-.sardina-individual-animada-inversa {
+/* ------------------------------------------- */
+/* ESTILOS COMUNES DE LAS SARDINITAS           */
+/* ------------------------------------------- */
+.sardina-izquierda, .sardina-derecha {
+    position: absolute;
     background: none;
     border: none;
-    padding: 0;
     cursor: pointer;
-    pointer-events: auto;
     user-select: none;
-    -webkit-user-select: none;
-    position: absolute;
-    font-size: 1.5rem;
-    opacity: 0;
-    animation: schoolSwimReverse 15s linear infinite;
-    animation-play-state: paused;
+    -webkit-tap-highlight-color: transparent;
 }
 
-/* Posiciones iniciales - Cardumen derecho */
-.sardina-der-1  { top: 0%;  right:  -110vw; font-size: 1.1rem; animation-delay: 0.5s; margin-right: -25px; }
-.sardina-der-2  { top: 3%;  right:  -110vw; font-size: 1.3rem; animation-delay: 0.8s; margin-right: -25px; }
-.sardina-der-3  { top: 1%;  right:  -110vw; font-size: 1rem;   animation-delay: 1.2s; margin-right: -15px; }
-.sardina-der-4  { top: 5%;  right:  -110vw; font-size: 1.4rem; animation-delay: 1.8s; margin-right: -30px; }
-.sardina-der-5  { top: 2%;  right:  -110vw; font-size: 0.9rem; animation-delay: 2.2s; margin-right: -20px; }
-.sardina-der-6  { top: 20%; right:  -110vw; font-size: 1.2rem; animation-delay: 2.4s; margin-right: -12px; }
-.sardina-der-7  { top: 25%; right:  -110vw; font-size: 1rem;   animation-delay: 3.0s; margin-right: -28px; }
-.sardina-der-8  { top: 23%; right:  -110vw; font-size: 1.3rem; animation-delay: 3.6s; margin-right: -18px; }
-.sardina-der-9  { top: 7%;  right:  -110vw; font-size: 1.1rem; animation-delay: 0.5s; margin-right: -25px; }
-.sardina-der-10 { top: 10%; right:  -110vw; font-size: 1.3rem; animation-delay: 0.8s; margin-right: -15px; }
-.sardina-der-11 { top: 8%;  right:  -110vw; font-size: 1rem;   animation-delay: 1.2s; margin-right: -30px; }
-.sardina-der-12 { top: 13%; right:  -110vw; font-size: 1.4rem; animation-delay: 1.8s; margin-right: -20px; }
-.sardina-der-13 { top: 11%; right:  -110vw; font-size: 0.9rem; animation-delay: 2.2s; margin-right: -12px; }
-.sardina-der-14 { top: 28%; right:  -110vw; font-size: 1.2rem; animation-delay: 2.4s; margin-right: -28px; }
-.sardina-der-15 { top: 20%; right:  -110vw; font-size: 1rem;   animation-delay: 3.0s; margin-right: -18px; }
-.sardina-der-16 { top: 23%; right:  -110vw; font-size: 1.3rem; animation-delay: 3.5s; margin-right: -25px; }
-.sardina-der-15 { top: 13%; right:  -110vw; font-size: 1rem;   animation-delay: 3.0s; margin-right: -29px; }
-.sardina-der-16 { top: 13%; right:  -110vw; font-size: 1.3rem; animation-delay: 3.5s; margin-right: -17px; }
-
-
-@keyframes schoolSwimReverse {
-    0%   { transform: translateX(0)      translateY(0);     opacity: 0; }
-    55%  { transform: translateX(-110vw) translateY(5px);   opacity: 1; }
-    62%  { transform: translateX(-124vw) translateY(-10px); opacity: 1; }
-    75%  { transform: translateX(-150vw) translateY(-15px); opacity: 1; }
-    88%  { transform: translateX(-176vw) translateY(5px);   opacity: 1; }
-    95%  { transform: translateX(-214vw) translateY(3px);   opacity: 1; }
-    100% { transform: translateX(-240vw) translateY(5px);   opacity: 0; }
+.sardina-izquierda {
+    transform: scaleX(-1);
+    animation: aleteo-volteado 1.5s infinite alternate ease-in-out;
 }
 
-/* ==================== SARDINA DESVIVIDA ==================== */
-@keyframes sardineEscape {
-    0%   { transform: translateY(0)      rotate(0deg)  scaleY(-1); opacity: 1; }
-    100% { transform: translateY(-100vh) rotate(10deg) scaleY(-1); opacity: 1; }
+.sardina-derecha {
+    animation: aleteo-normal 1.5s infinite alternate ease-in-out;
 }
 
-@keyframes sardineFloat {
-    0%   { transform: translateY(0)     rotate(10deg) scaleY(-1) scaleX(-1); }
-    50%  { transform: translateY(-12px) rotate(5deg)  scaleY(-1) scaleX(-1); }
-    100% { transform: translateY(0)     rotate(10deg) scaleY(-1) scaleX(-1); }
+@keyframes aleteo-volteado {
+    0% { transform: scaleX(-1) translate(0px, 0px); }
+    100% { transform: scaleX(-1) translate(5px, -12px); }
 }
 
-@keyframes sardineFloatReverse {
-    0%   { transform: translateY(0)     rotate(10deg) scaleY(-1) scaleX(1); }
-    50%  { transform: translateY(-12px) rotate(5deg)  scaleY(-1) scaleX(1); }
-    100% { transform: translateY(0)     rotate(10deg) scaleY(-1) scaleX(1); }
+@keyframes aleteo-normal {
+    0% { transform: translate(0px, 0px); }
+    100% { transform: translate(-5px, -12px); }
+}
+
+button:nth-child(even) { animation-delay: 0.3s; animation-duration: 1.2s; }
+button:nth-child(3n) { animation-delay: 0.7s; animation-duration: 1.8s; }
+button:nth-child(5n) { animation-delay: 0.1s; animation-duration: 1.4s; }
+button:nth-child(7n) { animation-delay: 0.9s; animation-duration: 1.6s; }
+
+/* ------------------------------------------- */
+/* ANIMACIONES DE FLOTE (PANZA ARRIBA)         */
+/* ------------------------------------------- */
+@keyframes sardinaFlotandoIzq {
+    0%, 100% { transform: translateY(0px) rotate(10deg) scaleY(-1) scaleX(-1); }
+    50% { transform: translateY(-15px) rotate(-5deg) scaleY(-1) scaleX(-1); }
+}
+
+@keyframes sardinaFlotandoDer {
+    0%, 100% { transform: translateY(0px) rotate(10deg) scaleY(-1) scaleX(1); }
+    50% { transform: translateY(-15px) rotate(-5deg) scaleY(-1) scaleX(1); }
 }
 
 /* ==================== RESPONSIVE ==================== */
