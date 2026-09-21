@@ -11,6 +11,7 @@ jobs:
     env:
       PROD_DIR: /opt/sardinitasenelmar.com
       BACKUP_DIR: /opt/sardinitasenelmar.com_backup
+      SITE_URL: https://sardinitasenelmar.com
     steps:
       - name: Checkout del código
         uses: actions/checkout@v4
@@ -37,13 +38,44 @@ jobs:
 
       - name: Sincronizar a producción
         run: |
-          rsync -av --delete --exclude '.git' --filter=":- .gitignore" ./ "$PROD_DIR/"
+          rsync -av --delete --exclude '.git' --exclude 'sitemap.xml' --filter=":- .gitignore" ./ "$PROD_DIR/"
 
       - name: Reiniciar contenedores Docker
         if: steps.filter.outputs.docker == 'true'
         working-directory: /opt/sardinitasenelmar.com/docker
         run: |
           docker compose up -d --build
+
+      - name: Crear o actualizar sitemap.xml
+        run: |
+          SITEMAP_DIR="$PROD_DIR/sardinitasenelmar.com"
+          SITEMAP_FILE="$SITEMAP_DIR/sitemap.xml"
+          TEMP_FILE="$SITEMAP_DIR/.sitemap.xml.tmp"
+          LASTMOD=$(date -u '+%Y-%m-%d')
+          trap 'rm -f "$TEMP_FILE"' EXIT
+
+          mkdir -p "$SITEMAP_DIR"
+          printf '%s\n' '<?xml version="1.0" encoding="UTF-8"?>' > "$TEMP_FILE"
+          printf '%s\n' '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' >> "$TEMP_FILE"
+          printf '  <url>\n    <loc>%s/</loc>\n    <lastmod>%s</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>1.0</priority>\n  </url>\n' \
+            "$SITE_URL" "$LASTMOD" >> "$TEMP_FILE"
+
+          find "$SITEMAP_DIR" -mindepth 2 -type f -name 'index.html' ! -path '*/.*' -print0 | sort -z | while IFS= read -r -d '' index_file; do
+            relative_path="${index_file#"$SITEMAP_DIR"/}"
+            directory_path="${relative_path%/index.html}"
+            printf '  <url>\n    <loc>%s/%s/</loc>\n    <lastmod>%s</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.8</priority>\n  </url>\n' \
+              "$SITE_URL" "$directory_path" "$LASTMOD" >> "$TEMP_FILE"
+          done
+
+          printf '%s\n' '</urlset>' >> "$TEMP_FILE"
+
+          if ! command -v xmllint >/dev/null 2>&1; then
+            echo "xmllint no está instalado en el runner self-hosted"
+            exit 1
+          fi
+          xmllint --noout "$TEMP_FILE"
+
+          mv "$TEMP_FILE" "$SITEMAP_FILE"
 
       # Rollback solo si hubo cambios en Docker y algo falló durante el despliegue
       - name: Ejecutar Rollback
