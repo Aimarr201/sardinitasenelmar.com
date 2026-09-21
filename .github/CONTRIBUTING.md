@@ -54,14 +54,14 @@ Para enviar tus cambios al proyecto, sigue este proceso estándar:
         git commit -m "feat: añadir nueva página X"
 8. **Sube los cambios (Push)** a tu fork:
 
-        git push origin feature/mi-nueva-funcionalidad**
+        git push origin feature/mi-nueva-funcionalidad
 9. **Abre un Pull Request** en el [repositorio original](https://github.com/Aimarr201/sardinitasenelmar.com) desde la pestaña de Pull Requests.
 
 ---
 
 ## Guía de Estilo
 Para mantener un código limpio y consistente, seguimos estas reglas:
-* Escribe los nombres de las variables en kebab-case.
+* Escribe los nombres de archivos, carpetas, clases, ids, variables, etc... en kebab-case.
 * Usa 4 espacios para la indentación, no tabuladores.
 * Sin espacios al final de las líneas o en líneas vacías.
 * Todos los archivos deben terminar con una línea vacía.
