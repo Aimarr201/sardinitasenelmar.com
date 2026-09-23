@@ -37,13 +37,14 @@ jobs:
 
       - name: Sincronizar a producción
         run: |
-          rsync -rltv --delete --exclude '.git' --filter=":- .gitignore" --chmod=D2775,F664 ./ "$PROD_DIR/"
+          rsync -av --delete --exclude '.git' --exclude 'docker' --filter=":- .gitignore" ./ "$PROD_DIR/"
 
-      - name: Reiniciar contenedores Docker
+      - name: Actualizar Docker y reiniciar
         if: steps.filter.outputs.docker == 'true'
-        working-directory: ${{ env.PROD_DIR }}/docker
         run: |
-          docker compose up -d --build
+          rsync -av --delete --exclude '.git' --filter=":- .gitignore" ./docker/ "$PROD_DIR/docker/"
+
+          docker compose -f "$PROD_DIR/docker/docker-compose.yml" up -d --build --remove-orphans
 
       # Rollback solo si hubo cambios en Docker y algo falló durante el despliegue
       - name: Ejecutar Rollback
