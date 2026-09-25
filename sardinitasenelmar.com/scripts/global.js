@@ -177,17 +177,21 @@ document.addEventListener('click', (e) => {
     if (e.target.matches('.sardina-izquierda, .sardina-derecha')) return;
 
     const overlay = document.querySelector('.seccion-hero-inicio-contenido');
-    if (!overlay) return;
+    const footer = document.querySelector('.divisor-ola-pie-pagina');
 
-    if (!overlay.contains(e.target)) return;
+    let clickedElement = null;
+    if (overlay && overlay.contains(e.target)) clickedElement = overlay;
+    else if (footer && footer.contains(e.target)) clickedElement = footer;
+
+    if (!clickedElement) return;
 
     const x = e.clientX;
     const y = e.clientY;
 
-    const prevPointer = overlay.style.pointerEvents;
-    overlay.style.pointerEvents = 'none';
+    const prevPointer = clickedElement.style.pointerEvents;
+    clickedElement.style.pointerEvents = 'none';
     const elUnder = document.elementFromPoint(x, y);
-    overlay.style.pointerEvents = prevPointer || '';
+    clickedElement.style.pointerEvents = prevPointer || '';
 
     if (!elUnder) return;
 
