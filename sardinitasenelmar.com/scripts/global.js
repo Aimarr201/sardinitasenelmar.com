@@ -49,24 +49,97 @@ document.addEventListener('mousemove', (e) => {
 // ==================== SARDININTXIS ====================
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- 1. LÓGICA DE MOVIMIENTO CARDUMEN ---
-    function crearCaos(grupo) {
-        const peces = grupo.querySelectorAll('button:not([data-escaped="true"])');
-        peces.forEach(pez => {
-            pez.style.top = `${Math.random() * 85}%`;
-            pez.style.left = `${Math.random() * 85}%`;
-            const tamaño = (Math.random() * 1.5) + 1;
-            pez.style.fontSize = `${tamaño}rem`;
-            pez.style.zIndex = Math.floor(Math.random() * 10);
-        });
+    // --- VARIABLES DE CANTIDAD DE PECES ---
+    const cantidadPecesIzquierda = 9; // Cantidad de peces que aparecen por la izquierda
+    const cantidadPecesDerecha = 16;  // Cantidad de peces que aparecen por la derecha
+
+    // --- CONFIGURACIÓN DE EMOJIS POR CARDUMEN (Porcentajes y Orientación) ---
+    // Orientaciones posibles: 'izquierda', 'derecha', 'arriba'
+    const emojisIzquierda = [
+        { emoji: '🐟', probabilidad: 85.9, orientacion: 'izquierda' },
+        { emoji: '🐠', probabilidad: 14, orientacion: 'izquierda' },
+        { emoji: '🦄', probabilidad: 0.1, orientacion: 'derecha' },
+    ];
+
+    const emojisDerecha = [
+        { emoji: '🐟', probabilidad: 83, orientacion: 'izquierda' },
+        { emoji: '🐠', probabilidad: 11, orientacion: 'izquierda' },
+        { emoji: '🐙', probabilidad: 3, orientacion: 'arriba' },
+        { emoji: '🦑', probabilidad: 3, orientacion: 'arriba' }
+    ];
+
+    function obtenerEmojiAleatorio(configuracion) {
+        // Sumamos las probabilidades para permitir decimales o totales que no den 100 exactos
+        const sumaTotal = configuracion.reduce((suma, item) => suma + item.probabilidad, 0);
+        const rnd = Math.random() * sumaTotal;
+
+        let acumulado = 0;
+        for (const item of configuracion) {
+            acumulado += item.probabilidad;
+            if (rnd < acumulado) {
+                return item;
+            }
+        }
+        return configuracion[0]; // Fallback
     }
+
+    function configurarPezAleatorio(pez, direccionNado, orientacionNatural) {
+        pez.style.top = `${Math.random() * 85}%`;
+        pez.style.left = `${Math.random() * 85}%`;
+        const tamaño = (Math.random() * 1.5) + 1;
+        pez.style.fontSize = `${tamaño}rem`;
+        pez.style.zIndex = Math.floor(Math.random() * 10);
+
+        let transform = '';
+        let aleteoX = '-5px'; // Por defecto, aletea hacia la izquierda visualmente
+
+        if (direccionNado === 'derecha') { // El cardumen se mueve hacia la derecha en la pantalla
+            if (orientacionNatural === 'izquierda') { transform = 'scaleX(-1)'; aleteoX = '5px'; }
+            else if (orientacionNatural === 'derecha') { transform = 'scaleX(1)'; aleteoX = '-5px'; }
+            else if (orientacionNatural === 'arriba') { transform = 'rotate(90deg)'; aleteoX = '0px'; }
+        } else { // El cardumen se mueve hacia la izquierda
+            if (orientacionNatural === 'izquierda') { transform = 'scaleX(1)'; aleteoX = '-5px'; }
+            else if (orientacionNatural === 'derecha') { transform = 'scaleX(-1)'; aleteoX = '5px'; }
+            else if (orientacionNatural === 'arriba') { transform = 'rotate(-90deg)'; aleteoX = '0px'; }
+        }
+
+        pez.style.setProperty('--ajuste-orientacion', transform);
+        pez.style.setProperty('--aleteo-x', aleteoX);
+        pez.dataset.orientacionBase = transform; // Para la animación de "escape" (flote)
+    }
+
+    const grupo1 = document.querySelector('cardumen-izquierdo');
+    const grupo2 = document.querySelector('cardumen-derecho');
+
+    // Generar peces dinámicamente
+    if (grupo1) {
+        for (let i = 0; i < cantidadPecesIzquierda; i++) {
+            const pez = document.createElement('button');
+            pez.className = 'sardina-izquierda';
+            const configPez = obtenerEmojiAleatorio(emojisIzquierda);
+            pez.textContent = configPez.emoji;
+            configurarPezAleatorio(pez, 'derecha', configPez.orientacion || 'izquierda');
+            grupo1.appendChild(pez);
+        }
+    }
+
+    if (grupo2) {
+        for (let i = 0; i < cantidadPecesDerecha; i++) {
+            const pez = document.createElement('button');
+            pez.className = 'sardina-derecha';
+            const configPez = obtenerEmojiAleatorio(emojisDerecha);
+            pez.textContent = configPez.emoji;
+            configurarPezAleatorio(pez, 'izquierda', configPez.orientacion || 'izquierda');
+            grupo2.appendChild(pez);
+        }
+    }
+
+    // --- 1. LÓGICA DE MOVIMIENTO CARDUMEN ---
 
     function animarCardumen(elemento, direccion, minEspera, maxEspera) {
         if (!elemento) return;
 
         function iniciarNado() {
-            crearCaos(elemento);
-
             const nuevaAltura = Math.floor(Math.random() * 40) + 10;
             elemento.style.top = `${nuevaAltura}%`;
             elemento.style.transition = 'none';
@@ -100,11 +173,6 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(iniciarNado, retrasoInicial);
     }
 
-    const grupo1 = document.getElementById('grupo-peces-izquierda')
-        || document.getElementById('grupo-izquierda');
-    const grupo2 = document.getElementById('grupo-peces-derecha')
-        || document.getElementById('grupo-derecha');
-
     animarCardumen(grupo1, 'hacia-derecha', 2000, 6000);
     animarCardumen(grupo2, 'hacia-izquierda', 3000, 8000);
 
@@ -121,7 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
             sardine.style.cursor = 'default';
 
             const esDerecha = sardine.classList.contains('sardina-derecha');
-            const scale = esDerecha ? 'scaleX(1)' : 'scaleX(-1)';
+            const baseTransform = sardine.dataset.orientacionBase || (esDerecha ? 'scaleX(1)' : 'scaleX(-1)');
 
             const rect = sardine.getBoundingClientRect();
             const heroRect = hero.getBoundingClientRect();
@@ -152,8 +220,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // SUBIDA
             const escape = pezClon.animate([
-                { transform: `translateY(0) rotate(0deg) scaleY(-1) ${scale}` },
-                { transform: `translateY(${translateNeeded}px) rotate(10deg) scaleY(-1) ${scale}` }
+                { transform: `translateY(0) rotate(0deg) scaleY(-1) ${baseTransform}` },
+                { transform: `translateY(${translateNeeded}px) rotate(10deg) scaleY(-1) ${baseTransform}` }
             ], {
                 duration: 45000,
                 easing: 'ease-out',
@@ -163,11 +231,10 @@ document.addEventListener('DOMContentLoaded', () => {
             escape.onfinish = () => {
                 escape.cancel();
                 pezClon.style.top = targetTop + 'px';
-                pezClon.style.transform = `rotate(10deg) scaleY(-1) ${scale}`;
+                pezClon.style.transform = `rotate(10deg) scaleY(-1) ${baseTransform}`;
 
                 // BALANCEO EN SUPERFICIE
-                const floatAnimation = esDerecha ? 'sardinaFlotandoDer' : 'sardinaFlotandoIzq';
-                pezClon.style.animation = `${floatAnimation} 20s ease-in-out infinite`;
+                pezClon.style.animation = `sardinaFlotando 20s ease-in-out infinite`;
             };
         });
     });

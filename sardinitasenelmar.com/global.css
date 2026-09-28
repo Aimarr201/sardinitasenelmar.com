@@ -348,20 +348,21 @@ body {
 /* ------------------------------------------- */
 /* CONTENEDORES DE LOS CARDÚMENES              */
 /* ------------------------------------------- */
-.cardumen-sardinas-animadas,
-.cardumen-sardinas-animadas-inverso {
+cardumen-izquierdo,
+cardumen-derecho {
     position: absolute;
     width: 1000px;
     height: 500px;
     z-index: 10;
+    display: block;
 }
 
-.cardumen-sardinas-animadas {
+cardumen-izquierdo {
     left: 0;
     transform: translateX(-100%);
 }
 
-.cardumen-sardinas-animadas-inverso {
+cardumen-derecho {
     right: 0;
     transform: translateX(100%);
 }
@@ -376,25 +377,12 @@ body {
     cursor: pointer;
     user-select: none;
     -webkit-tap-highlight-color: transparent;
+    animation: aleteo-dinamico 1.5s infinite alternate ease-in-out;
 }
 
-.sardina-izquierda {
-    transform: scaleX(-1);
-    animation: aleteo-volteado 1.5s infinite alternate ease-in-out;
-}
-
-.sardina-derecha {
-    animation: aleteo-normal 1.5s infinite alternate ease-in-out;
-}
-
-@keyframes aleteo-volteado {
-    0% { transform: scaleX(-1) translate(0px, 0px); }
-    100% { transform: scaleX(-1) translate(5px, -12px); }
-}
-
-@keyframes aleteo-normal {
-    0% { transform: translate(0px, 0px); }
-    100% { transform: translate(-5px, -12px); }
+@keyframes aleteo-dinamico {
+    0% { transform: var(--ajuste-orientacion, scaleX(1)) translate(0px, 0px); }
+    100% { transform: var(--ajuste-orientacion, scaleX(1)) translate(var(--aleteo-x, -5px), -12px); }
 }
 
 button:nth-child(even) { animation-delay: 0.3s; animation-duration: 1.2s; }
@@ -405,14 +393,9 @@ button:nth-child(7n) { animation-delay: 0.9s; animation-duration: 1.6s; }
 /* ------------------------------------------- */
 /* ANIMACIONES DE FLOTE (PANZA ARRIBA)         */
 /* ------------------------------------------- */
-@keyframes sardinaFlotandoIzq {
-    0%, 100% { transform: translateY(0px) rotate(10deg) scaleY(-1) scaleX(-1); }
-    50% { transform: translateY(-15px) rotate(-5deg) scaleY(-1) scaleX(-1); }
-}
-
-@keyframes sardinaFlotandoDer {
-    0%, 100% { transform: translateY(0px) rotate(10deg) scaleY(-1) scaleX(1); }
-    50% { transform: translateY(-15px) rotate(-5deg) scaleY(-1) scaleX(1); }
+@keyframes sardinaFlotando {
+    0%, 100% { transform: translateY(0px) rotate(10deg) scaleY(-1) var(--ajuste-orientacion, scaleX(1)); }
+    50% { transform: translateY(-15px) rotate(-5deg) scaleY(-1) var(--ajuste-orientacion, scaleX(1)); }
 }
 
 /* ==================== RESPONSIVE ==================== */
