@@ -39,7 +39,7 @@ Para enviar tus cambios al proyecto, sigue este proceso estándar:
        git clone <link de tu repositorio>
 3. **Añade el repositorio original** como remoto (upstream) para mantenerte actualizado:
 
-       git remote add upstream https://github.com/Aimarr201/sardinitasenelmar.com.git
+       git remote add upstream https://github.com/Aimarr201/sardinitasenelmar.com
 4. **Crea una nueva rama (branch)** para tu contribución. Usa un nombre descriptivo:
 
        git checkout -b feature/mi-nueva-funcionalidad
