@@ -15,8 +15,8 @@ Este es un proyecto colaborativo y es lo que le da sentido. No importa si sabes 
 ¿Has encontrado un fallo o tienes una idea genial para **sardinitasenelmar.com**?
 
 Puedes usar la pestaña de **[Issues](https://github.com/Aimarr201/sardinitasenelmar.com/issues)** para:
-* **Proponer mejoras:** Si echas en falta una sección o tienes sugerencias de diseño, abre un [Issue](https://github.com/Aimarr201/sardinitasenelmar.com/issues) para que podamos debatirlo y añadirlo al proyecto (aunque siempre será mejor que te animes tú a colaborar con el proyecto 😉).
-* **Reportar bugs:** Si ves que algo no cuadra, queremos saberlo. Puedes abrir un [Issue](https://github.com/Aimarr201/sardinitasenelmar.com/issues) para avisarnos.
+* **Proponer mejoras:** Si echas en falta una sección o tienes sugerencias de diseño, abre un [Issue](https://github.com/Aimarr201/sardinitasenelmar.com/issues/new?template=feature_request.md) para que podamos debatirlo y añadirlo al proyecto (aunque siempre será mejor que te animes tú a colaborar con el proyecto 😉).
+* **Reportar bugs:** Si ves que algo no cuadra, queremos saberlo. Puedes abrir un [Issue](https://github.com/Aimarr201/sardinitasenelmar.com/issues/new?template=bug_report.md) para avisarnos.
 
 ---
 
